@@ -53,3 +53,4 @@ $coin->getBalance();
 - Add functions for getting bandwidth and energy, as well as staking TRX for transfers in Tron.
 - Implement a method for generating blockchain explorer URLs.
 - Support for Solana chain.
+- Test cases.
