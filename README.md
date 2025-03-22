@@ -49,8 +49,9 @@ $coin->getBalance();
 //...
 ```
 
-## TODO
-- Add functions for getting bandwidth and energy, as well as staking TRX for transfers in Tron.
-- Implement a method for generating blockchain explorer URLs.
-- Support for Solana chain.
-- Test cases.
+## Donations
+If you find this project useful, consider donating:
+
+- **Tron:** `TSB2wHyR9XbBSypkj2CrbRzAwVkXaNrjNJ`
+- **Ethereum:** `0x3C99992DAa67403A03ba18AD2f36e344cE0A6Bfa`
+- **Binance Smart Chain:** `0x3C99992DAa67403A03ba18AD2f36e344cE0A6Bfa`
