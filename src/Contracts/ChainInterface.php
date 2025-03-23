@@ -17,4 +17,8 @@ interface ChainInterface
     public function getNativeCoinDecimals(): int;
 
     public function rpcRequest(string $method, array $params = [], HttpMethod $httpMethod = HttpMethod::POST): BizResponseInterface;
+
+    public function getExplorerAddressUrl(string $address): string;
+
+    public function getExplorerTransactionUrl(string $txId): string;
 }

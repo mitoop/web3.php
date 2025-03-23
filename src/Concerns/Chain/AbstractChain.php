@@ -23,6 +23,11 @@ abstract class AbstractChain implements ChainInterface
         return $this->config[$key] ?? $default;
     }
 
+    public function getExplorerUrl(): string
+    {
+        return rtrim($this->config('explorer_url'), '/');
+    }
+
     public function generateWallet(): Wallet
     {
         return Factory::create($this->config('chain'))->generate();
