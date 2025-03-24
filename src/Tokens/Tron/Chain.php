@@ -26,6 +26,19 @@ class Chain extends AbstractChain
     /**
      * @throws RpcException
      */
+    public function getAccountResource(string $address): array
+    {
+        $response = $this->rpcRequest('wallet/getaccountresource', [
+            'address' => $address,
+            'visible' => true,
+        ]);
+
+        return $response->json();
+    }
+
+    /**
+     * @throws RpcException
+     */
     public function rpcRequest(string $method, array $params = [], HttpMethod $httpMethod = HttpMethod::POST): BizResponseInterface
     {
         $response = match ($httpMethod) {
