@@ -14,6 +14,8 @@ interface ChainInterface
 
     public function getChainId(bool $preferLocal = true): int;
 
+    public function getLatestBlockNum(): string;
+
     public function getNativeCoinDecimals(): int;
 
     public function rpcRequest(string $method, array $params = [], HttpMethod $httpMethod = HttpMethod::POST): BizResponseInterface;

@@ -18,6 +18,17 @@ class Chain extends AbstractChain
         return 0;
     }
 
+    /**
+     * @throws RpcException
+     */
+    public function getLatestBlockNum(): string
+    {
+        $response = $this->rpcRequest('wallet/getnowblock');
+
+        // 🌰 55540457
+        return (string) $response->json('block_header.raw_data.number');
+    }
+
     public function getNativeCoinDecimals(): int
     {
         return 6;
