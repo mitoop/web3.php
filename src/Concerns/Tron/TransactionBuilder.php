@@ -1,6 +1,6 @@
 <?php
 
-namespace Mitoop\Crypto\Concerns\Tvm;
+namespace Mitoop\Crypto\Concerns\Tron;
 
 use kornrunner\Secp256k1;
 use kornrunner\Signature\Signature;

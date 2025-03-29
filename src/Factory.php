@@ -4,6 +4,8 @@ namespace Mitoop\Crypto;
 
 use Mitoop\Crypto\Contracts\CoinInterface;
 use Mitoop\Crypto\Contracts\TokenInterface;
+use Mitoop\Crypto\Contracts\Tron\TronCoinInterface;
+use Mitoop\Crypto\Contracts\Tron\TronTokenInterface;
 use Mitoop\Crypto\Exceptions\InvalidArgumentException;
 
 class Factory
@@ -21,7 +23,7 @@ class Factory
      *
      * @throws InvalidArgumentException
      */
-    public static function createToken(array $config): TokenInterface
+    public static function createToken(array $config): TokenInterface|TronTokenInterface
     {
         return self::create('Token', $config, ['chain', 'chain_id', 'contract_address', 'decimals', 'rpc_url', 'rpc_api_key', 'explorer_url']);
     }
@@ -37,7 +39,7 @@ class Factory
      *
      * @throws InvalidArgumentException
      */
-    public static function createCoin(array $config): CoinInterface
+    public static function createCoin(array $config): CoinInterface|TronCoinInterface
     {
         return self::create('Coin', $config, ['chain', 'chain_id', 'rpc_url', 'rpc_api_key', 'explorer_url']);
     }

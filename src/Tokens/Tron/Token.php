@@ -3,7 +3,7 @@
 namespace Mitoop\Crypto\Tokens\Tron;
 
 use Mitoop\Crypto\Concerns\HasTokenProperties;
-use Mitoop\Crypto\Concerns\Tvm\TransactionBuilder;
+use Mitoop\Crypto\Concerns\Tron\TransactionBuilder;
 use Mitoop\Crypto\Contracts\TokenInterface;
 use Mitoop\Crypto\Exceptions\BalanceShortageException;
 use Mitoop\Crypto\Exceptions\RpcException;

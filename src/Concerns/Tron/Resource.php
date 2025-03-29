@@ -1,6 +1,6 @@
 <?php
 
-namespace Mitoop\Crypto\Concerns\Tvm;
+namespace Mitoop\Crypto\Concerns\Tron;
 
 enum Resource: string
 {
