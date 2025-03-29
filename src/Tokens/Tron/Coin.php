@@ -2,7 +2,6 @@
 
 namespace Mitoop\Crypto\Tokens\Tron;
 
-use Mitoop\Crypto\Concerns\Tvm\TransactionBuilder;
 use Mitoop\Crypto\Contracts\CoinInterface;
 use Mitoop\Crypto\Exceptions\BalanceShortageException;
 use Mitoop\Crypto\Exceptions\RpcException;
@@ -105,10 +104,6 @@ class Coin extends Chain implements CoinInterface
 
         $data = $response->json();
 
-        $data['signature'] = (new TransactionBuilder)->sign($data['txID'], $fromPrivateKey);
-
-        $response = $this->rpcRequest('wallet/broadcasttransaction', $data);
-
-        return (string) $response->json('txid');
+        return $this->broadcast($data, $fromPrivateKey);
     }
 }

@@ -4,6 +4,8 @@ namespace Mitoop\Crypto\Tokens\Tron;
 
 use Mitoop\Crypto\Concerns\Chain\AbstractChain;
 use Mitoop\Crypto\Concerns\Tvm\AddressFormatter;
+use Mitoop\Crypto\Concerns\Tvm\Resource;
+use Mitoop\Crypto\Concerns\Tvm\TransactionBuilder;
 use Mitoop\Crypto\Exceptions\RpcException;
 use Mitoop\Crypto\Support\Http\BizResponseInterface;
 use Mitoop\Crypto\Support\Http\HttpMethod;
@@ -45,6 +47,89 @@ class Chain extends AbstractChain
         ]);
 
         return $response->json();
+    }
+
+    /**
+     * @throws RpcException
+     */
+    protected function stake(string $address, string $addressPrivateKey, $amount, Resource $resource): string
+    {
+        $response = $this->rpcRequest('wallet/freezebalancev2', [
+            'owner_address' => $address,
+            'frozen_balance' => (int) ($amount * $this->getNativeCoinDecimals()),
+            'resource' => $resource->value,
+            'visible' => true,
+        ]);
+
+        $data = $response->json();
+
+        return $this->broadcast($data, $addressPrivateKey);
+    }
+
+    /**
+     * @throws RpcException
+     */
+    protected function unstake(string $address, string $addressPrivateKey, $amount, Resource $resource): string
+    {
+        $response = $this->rpcRequest('wallet/unfreezebalancev2', [
+            'owner_address' => $address,
+            'unfreeze_balance' => (int) ($amount * $this->getNativeCoinDecimals()),
+            'resource' => $resource->value,
+            'visible' => true,
+        ]);
+
+        $data = $response->json();
+
+        return $this->broadcast($data, $addressPrivateKey);
+    }
+
+    /**
+     * @throws RpcException
+     */
+    protected function delegate(string $from, string $fromPrivateKey, string $to, $amount, Resource $resource): string
+    {
+        $response = $this->rpcRequest('wallet/delegateresource', [
+            'owner_address' => $from,
+            'resource' => $resource->value,
+            'receiver_address' => $to,
+            'balance' => (int) ($amount * $this->getNativeCoinDecimals()),
+            'lock' => false,
+            'visible' => true,
+        ]);
+
+        $data = $response->json();
+
+        return $this->broadcast($data, $fromPrivateKey);
+    }
+
+    /**
+     * @throws RpcException
+     */
+    protected function undelegate(string $from, string $fromPrivateKey, string $to, $amount, Resource $resource): string
+    {
+        $response = $this->rpcRequest('wallet/undelegateresource', [
+            'owner_address' => $from,
+            'resource' => $resource->value,
+            'receiver_address' => $to,
+            'balance' => (int) ($amount * $this->getNativeCoinDecimals()),
+            'visible' => true,
+        ]);
+
+        $data = $response->json();
+
+        return $this->broadcast($data, $fromPrivateKey);
+    }
+
+    /**
+     * @throws RpcException
+     */
+    public function broadcast(array $data, string $privateKey): string
+    {
+        $data['signature'] = (new TransactionBuilder)->sign($data['txID'], $privateKey);
+
+        $response = $this->rpcRequest('wallet/broadcasttransaction', $data);
+
+        return (string) $response->json('txid');
     }
 
     /**

@@ -144,12 +144,11 @@ class Token extends Chain implements TokenInterface
             throw new BalanceShortageException(sprintf('balance: %s, amount: %s', $balance, $amount));
         }
 
-        $transactionBuilder = new TransactionBuilder;
         $response = $this->rpcRequest('wallet/triggersmartcontract', [
             'owner_address' => $fromAddress,
             'contract_address' => $this->getContractAddress(),
             'function_selector' => 'transfer(address,uint256)',
-            'parameter' => $transactionBuilder->encode($this->toHexAddress($toAddress), $amount, $this->getDecimals()),
+            'parameter' => (new TransactionBuilder)->encode($this->toHexAddress($toAddress), $amount, $this->getDecimals()),
             'fee_limit' => 30_000_000,
             'call_value' => 0,
             'visible' => true,
@@ -157,10 +156,6 @@ class Token extends Chain implements TokenInterface
 
         $data = $response->json('transaction');
 
-        $data['signature'] = $transactionBuilder->sign($data['txID'], $fromPrivateKey);
-
-        $response = $this->rpcRequest('wallet/broadcasttransaction', $data);
-
-        return (string) $response->json('txid');
+        return $this->broadcast($data, $fromPrivateKey);
     }
 }
