@@ -52,7 +52,7 @@ class Chain extends AbstractChain
     /**
      * @throws RpcException
      */
-    protected function stake(string $address, string $addressPrivateKey, $amount, Resource $resource): string
+    public function stake(string $address, string $addressPrivateKey, $amount, Resource $resource): string
     {
         $response = $this->rpcRequest('wallet/freezebalancev2', [
             'owner_address' => $address,
@@ -69,7 +69,7 @@ class Chain extends AbstractChain
     /**
      * @throws RpcException
      */
-    protected function unstake(string $address, string $addressPrivateKey, $amount, Resource $resource): string
+    public function unstake(string $address, string $addressPrivateKey, $amount, Resource $resource): string
     {
         $response = $this->rpcRequest('wallet/unfreezebalancev2', [
             'owner_address' => $address,
@@ -86,7 +86,7 @@ class Chain extends AbstractChain
     /**
      * @throws RpcException
      */
-    protected function delegate(string $from, string $fromPrivateKey, string $to, $amount, Resource $resource): string
+    public function delegate(string $from, string $fromPrivateKey, string $to, $amount, Resource $resource): string
     {
         $response = $this->rpcRequest('wallet/delegateresource', [
             'owner_address' => $from,
@@ -105,7 +105,7 @@ class Chain extends AbstractChain
     /**
      * @throws RpcException
      */
-    protected function undelegate(string $from, string $fromPrivateKey, string $to, $amount, Resource $resource): string
+    public function undelegate(string $from, string $fromPrivateKey, string $to, $amount, Resource $resource): string
     {
         $response = $this->rpcRequest('wallet/undelegateresource', [
             'owner_address' => $from,
@@ -123,7 +123,7 @@ class Chain extends AbstractChain
     /**
      * @throws RpcException
      */
-    public function broadcast(array $data, string $privateKey): string
+    protected function broadcast(array $data, string $privateKey): string
     {
         $data['signature'] = (new TransactionBuilder)->sign($data['txID'], $privateKey);
 
