@@ -17,6 +17,7 @@ class Factory
      *       contract_address: string,
      *       decimals: int,
      *       rpc_url: string,
+     *       rpc_timeout: ?int,
      *       rpc_api_key: string,
      *       explorer_url: string
      *   } $config Configuration for initializing the token instance.
@@ -33,6 +34,7 @@ class Factory
      *        chain: string,
      *        chain_id: int,
      *        rpc_url: string,
+     *        rpc_timeout: ?int,
      *        rpc_api_key: string,
      *        explorer_url: string
      *    } $config Configuration for initializing the coin instance.

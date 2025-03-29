@@ -166,7 +166,7 @@ class Chain extends AbstractChain implements TronChainInterface
     {
         return [
             'base_uri' => $this->config('rpc_url'),
-            'timeout' => 60,
+            'timeout' => $this->config('rpc_timeout', 120),
             'headers' => [
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
