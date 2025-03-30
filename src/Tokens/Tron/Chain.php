@@ -70,7 +70,7 @@ class Chain extends AbstractChain implements TronChainInterface
     /**
      * @throws RpcException
      */
-    public function unstake(string $address, string $addressPrivateKey, $amount, Resource $resource): string
+    public function unStake(string $address, string $addressPrivateKey, $amount, Resource $resource): string
     {
         $response = $this->rpcRequest('wallet/unfreezebalancev2', [
             'owner_address' => $address,
@@ -106,7 +106,7 @@ class Chain extends AbstractChain implements TronChainInterface
     /**
      * @throws RpcException
      */
-    public function undelegate(string $from, string $fromPrivateKey, string $to, $amount, Resource $resource): string
+    public function unDelegate(string $from, string $fromPrivateKey, string $to, $amount, Resource $resource): string
     {
         $response = $this->rpcRequest('wallet/undelegateresource', [
             'owner_address' => $from,

@@ -10,9 +10,9 @@ interface TronChainInterface
 
     public function stake(string $address, string $addressPrivateKey, $amount, Resource $resource): string;
 
-    public function unstake(string $address, string $addressPrivateKey, $amount, Resource $resource): string;
+    public function unStake(string $address, string $addressPrivateKey, $amount, Resource $resource): string;
 
     public function delegate(string $from, string $fromPrivateKey, string $to, $amount, Resource $resource): string;
 
-    public function undelegate(string $from, string $fromPrivateKey, string $to, $amount, Resource $resource): string;
+    public function unDelegate(string $from, string $fromPrivateKey, string $to, $amount, Resource $resource): string;
 }
