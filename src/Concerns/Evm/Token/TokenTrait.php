@@ -31,7 +31,7 @@ trait TokenTrait
                 'to' => $this->getContractAddress(),
                 'data' => $data,
             ],
-            'finalized',
+            'latest',
         ]);
 
         return NumberFormatter::toDecimalAmount($response->json('result'), $this->getDecimals());
@@ -48,7 +48,7 @@ trait TokenTrait
         $response = $this->rpcRequest('eth_getLogs', [
             [
                 'fromBlock' => $params['latest_block_num'] ?? '0x0', // 十六进制如 "0x2e2a650"
-                'toBlock' => 'safe',
+                'toBlock' => 'latest',
                 'address' => $this->getContractAddress(),
                 'topics' => [$topic0, null, $topic2],
             ],

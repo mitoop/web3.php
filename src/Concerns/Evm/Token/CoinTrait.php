@@ -25,7 +25,7 @@ trait CoinTrait
     {
         $response = $this->rpcRequest('eth_getBalance', [
             $address,
-            'finalized',
+            'latest',
         ]);
 
         // 🌰 "0x853a0d2313c0000" => "600000000000000000" wei
