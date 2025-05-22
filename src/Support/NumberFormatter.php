@@ -6,6 +6,10 @@ class NumberFormatter
 {
     public static function removeTrailingZeros(string $number): string
     {
+        if (! str_contains($number, '.')) {
+            return $number;
+        }
+
         return rtrim(rtrim($number, '0'), '.');
     }
 
