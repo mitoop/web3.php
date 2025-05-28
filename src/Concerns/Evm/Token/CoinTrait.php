@@ -21,7 +21,7 @@ trait CoinTrait
     /**
      * @throws RpcException
      */
-    public function getBalance(string $address, bool $asUiAmount = false): string
+    public function getBalance(string $address, bool $asDisplayAmount = false): string
     {
         $response = $this->rpcRequest('eth_getBalance', [
             $address,
@@ -31,7 +31,7 @@ trait CoinTrait
         // 🌰 "0x853a0d2313c0000" => "600000000000000000" wei
         $balance = gmp_strval(gmp_init($response->json('result'), 16));
 
-        if ($asUiAmount) {
+        if ($asDisplayAmount) {
             return NumberFormatter::removeTrailingZeros(bcdiv($balance, bcpow(10, $this->getDecimals(), 0), $this->getDecimals()));
         }
 
@@ -55,7 +55,7 @@ trait CoinTrait
             $response->json('result.hash'),
             $response->json('result.from'),
             $response->json('result.to'),
-            NumberFormatter::toDecimalAmount($response->json('result.value'), $this->getDecimals()),
+            NumberFormatter::toDisplayAmount($response->json('result.value'), $this->getDecimals()),
         );
     }
 

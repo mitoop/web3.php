@@ -34,7 +34,7 @@ trait TokenTrait
             'latest',
         ]);
 
-        return NumberFormatter::toDecimalAmount($response->json('result'), $this->getDecimals());
+        return NumberFormatter::toDisplayAmount($response->json('result'), $this->getDecimals());
     }
 
     /**
@@ -66,7 +66,7 @@ trait TokenTrait
                 $this->toAddressFormat($item['topics'][1]),
                 $this->toAddressFormat($item['topics'][2]),
                 $item['data'],
-                NumberFormatter::toDecimalAmount($item['data'], $this->getDecimals()),
+                NumberFormatter::toDisplayAmount($item['data'], $this->getDecimals()),
                 $this->getDecimals(),
             );
         }
@@ -108,7 +108,7 @@ trait TokenTrait
                 &&
                 ! $log['removed']
             ) {
-                $amount = NumberFormatter::toDecimalAmount($log['data'] ?? '0x0', $this->getDecimals());
+                $amount = NumberFormatter::toDisplayAmount($log['data'] ?? '0x0', $this->getDecimals());
                 $to = $this->toAddressFormat($log['topics'][2]);
             }
         }

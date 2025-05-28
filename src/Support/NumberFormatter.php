@@ -13,7 +13,7 @@ class NumberFormatter
         return rtrim(rtrim($number, '0'), '.');
     }
 
-    public static function toDecimalAmount($amount, $decimals, bool $removeTrailingZeros = true): string
+    public static function toDisplayAmount($amount, $decimals, bool $removeTrailingZeros = true): string
     {
         $decimals = (string) $decimals;
 
@@ -21,8 +21,8 @@ class NumberFormatter
             $amount = gmp_strval(gmp_init($amount, 16));
         }
 
-        $decimalAmount = bcdiv($amount, bcpow(10, $decimals), $decimals);
+        $displayAmount = bcdiv($amount, bcpow(10, $decimals, 0), $decimals);
 
-        return $removeTrailingZeros ? self::removeTrailingZeros($decimalAmount) : $decimalAmount;
+        return $removeTrailingZeros ? self::removeTrailingZeros($displayAmount) : $displayAmount;
     }
 }

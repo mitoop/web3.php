@@ -58,7 +58,7 @@ class Coin extends Chain implements CoinInterface
             (string) $response->json('txID'),
             (string) $response->json('raw_data.contract.0.parameter.value.owner_address'),
             (string) $response->json('raw_data.contract.0.parameter.value.to_address'),
-            NumberFormatter::toDecimalAmount((string) $response->json('raw_data.contract.0.parameter.value.amount'), $this->getDecimals()),
+            NumberFormatter::toDisplayAmount((string) $response->json('raw_data.contract.0.parameter.value.amount'), $this->getDecimals()),
         );
     }
 
