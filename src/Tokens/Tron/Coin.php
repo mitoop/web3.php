@@ -34,7 +34,7 @@ class Coin extends Chain implements CoinInterface
         $balance = gmp_strval($response->json('balance'));
 
         if ($asUiAmount) {
-            return NumberFormatter::removeTrailingZeros(bcdiv($balance, bcpow(10, $this->getDecimals(), 0), $this->getDecimals()));
+            return NumberFormatter::toDisplayAmount($balance, $this->getDecimals());
         }
 
         return $balance;

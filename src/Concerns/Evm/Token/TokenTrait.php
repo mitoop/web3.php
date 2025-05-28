@@ -119,9 +119,7 @@ trait TokenTrait
             0
         );
 
-        $fee = bcdiv($fee, bcpow(10, $this->getNativeCoinDecimals()), $this->getNativeCoinDecimals());
-
-        $fee = NumberFormatter::removeTrailingZeros($fee);
+        $fee = NumberFormatter::toDisplayAmount($fee, $this->getNativeCoinDecimals());
 
         return new TransactionInfo(
             true,

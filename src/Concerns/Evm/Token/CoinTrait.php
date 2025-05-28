@@ -32,7 +32,7 @@ trait CoinTrait
         $balance = gmp_strval(gmp_init($response->json('result'), 16));
 
         if ($asDisplayAmount) {
-            return NumberFormatter::removeTrailingZeros(bcdiv($balance, bcpow(10, $this->getDecimals(), 0), $this->getDecimals()));
+            return NumberFormatter::toDisplayAmount($balance, $this->getDecimals());
         }
 
         return $balance;
