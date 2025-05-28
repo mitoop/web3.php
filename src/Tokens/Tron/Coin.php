@@ -45,6 +45,20 @@ class Coin extends Chain implements CoinInterface
      */
     public function getTransaction(string $txId): ?TransactionInfo
     {
+        $response = $this->rpcRequest('walletsolidity/gettransactioninfobyid', [
+            'value' => $txId,
+        ]);
+
+        if (empty($response->json())) {
+            return null;
+        }
+
+        if (is_null($response->json('blockNumber'))) {
+            return null;
+        }
+
+        $fee = NumberFormatter::toDisplayAmount($response->json('fee'), $this->getDecimals());
+
         $response = $this->rpcRequest('walletsolidity/gettransactionbyid', [
             'value' => $txId,
             'visible' => true,
@@ -55,10 +69,12 @@ class Coin extends Chain implements CoinInterface
         }
 
         return new TransactionInfo(
+            true,
             (string) $response->json('txID'),
             (string) $response->json('raw_data.contract.0.parameter.value.owner_address'),
             (string) $response->json('raw_data.contract.0.parameter.value.to_address'),
             NumberFormatter::toDisplayAmount((string) $response->json('raw_data.contract.0.parameter.value.amount'), $this->getDecimals()),
+            $fee,
         );
     }
 
