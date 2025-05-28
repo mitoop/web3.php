@@ -15,7 +15,7 @@ trait AddressFormatter
         return (new Base58)->encode($binaryAddress.hex2bin($checksum));
     }
 
-    protected function toPaddedAddress(string $address): string
+    public function toPaddedAddress(string $address): string
     {
         return str_pad(self::toHexAddress($address), 64, '0', STR_PAD_LEFT);
     }
