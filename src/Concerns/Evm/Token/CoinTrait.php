@@ -43,19 +43,39 @@ trait CoinTrait
      */
     public function getTransaction(string $txId): ?TransactionInfo
     {
+        $response = $this->rpcRequest('eth_getTransactionReceipt', [
+            $txId,
+        ]);
+
+        if (hexdec($response->json('result.status', 0)) !== 1) {
+            return null;
+        }
+
+        $hash = $response->json('result.transactionHash');
+        $from = $response->json('result.from');
+        $to = $response->json('result.to');
+
+        $fee = bcmul(
+            gmp_strval(gmp_init($response->json('result.effectiveGasPrice'), 16)),
+            gmp_strval(gmp_init($response->json('result.gasUsed'), 16)),
+            0
+        );
+
+        $fee = NumberFormatter::toDisplayAmount($fee, $this->getNativeCoinDecimals());
+
         $response = $this->rpcRequest('eth_getTransactionByHash', [
             $txId,
         ]);
 
-        if ($response->json('result') === null) {
-            return null;
-        }
+        $amount = NumberFormatter::toDisplayAmount($response->json('result.value'), $this->getDecimals());
 
         return new TransactionInfo(
-            $response->json('result.hash'),
-            $response->json('result.from'),
-            $response->json('result.to'),
-            NumberFormatter::toDisplayAmount($response->json('result.value'), $this->getDecimals()),
+            true,
+            (string) $hash,
+            (string) $from,
+            (string) $to,
+            $amount,
+            $fee,
         );
     }
 
