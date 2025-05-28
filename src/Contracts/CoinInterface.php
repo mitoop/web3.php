@@ -10,7 +10,7 @@ interface CoinInterface
 
     public function getDecimals(): int;
 
-    public function getBalance(string $address, bool $asUiAmount = false): string;
+    public function getBalance(string $address, bool $asDisplayAmount = false): string;
 
     public function getTransaction(string $txId): ?TransactionInfo;
 
