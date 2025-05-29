@@ -6,6 +6,7 @@ use Mitoop\Crypto\Concerns\Evm\Transactions\EIP1559Transaction;
 use Mitoop\Crypto\Concerns\Evm\Transactions\LegacyTransaction;
 use Mitoop\Crypto\Exceptions\GasShortageException;
 use Mitoop\Crypto\Exceptions\RpcException;
+use SensitiveParameter;
 
 trait EvmLike
 {
@@ -87,7 +88,7 @@ trait EvmLike
      * @throws RpcException
      */
     protected function createLegacyTransaction(
-        string $fromPrivateKey,
+        #[SensitiveParameter] string $fromPrivateKey,
         string $nonce,
         string $gasPrice,
         string $gasLimit,
@@ -109,13 +110,13 @@ trait EvmLike
      * @throws RpcException
      */
     protected function createEIP1559Transaction(
-        string $fromPrivateKey,
+        #[SensitiveParameter] string $fromPrivateKey,
         string $nonce,
         string $gasLimit,
         string $to = '',
         string $value = '',
-        string $data = ''): string
-    {
+        string $data = ''
+    ): string {
         [$baseFeePerGas, $maxPriorityFeePerGas] = $this->getBaseFeePerGas();
 
         $baseFeeWei = gmp_init($baseFeePerGas, 16);

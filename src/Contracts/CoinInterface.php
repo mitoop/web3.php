@@ -3,6 +3,7 @@
 namespace Mitoop\Crypto\Contracts;
 
 use Mitoop\Crypto\Transactions\Coin\TransactionInfo;
+use SensitiveParameter;
 
 interface CoinInterface
 {
@@ -16,5 +17,10 @@ interface CoinInterface
 
     public function getTransactionStatus(string $txId): bool;
 
-    public function transfer(string $fromAddress, string $fromPrivateKey, string $toAddress, string $amount): string;
+    public function transfer(
+        string $fromAddress,
+        #[SensitiveParameter] string $fromPrivateKey,
+        string $toAddress,
+        string $amount
+    ): string;
 }

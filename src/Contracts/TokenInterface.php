@@ -3,6 +3,7 @@
 namespace Mitoop\Crypto\Contracts;
 
 use Mitoop\Crypto\Transactions\Token\TransactionInfo;
+use SensitiveParameter;
 
 interface TokenInterface extends ChainInterface
 {
@@ -20,5 +21,11 @@ interface TokenInterface extends ChainInterface
 
     public function getTransactionStatus(string $txId): bool;
 
-    public function transfer(string $fromAddress, string $fromPrivateKey, string $toAddress, string $amount, bool $bestEffort = false): string;
+    public function transfer(
+        string $fromAddress,
+        #[SensitiveParameter] string $fromPrivateKey,
+        string $toAddress,
+        string $amount,
+        bool $bestEffort = false
+    ): string;
 }

@@ -11,6 +11,7 @@ use Mitoop\Crypto\Exceptions\RpcException;
 use Mitoop\Crypto\Support\Http\BizResponseInterface;
 use Mitoop\Crypto\Support\Http\HttpMethod;
 use Mitoop\Crypto\Support\Http\TronResponse;
+use SensitiveParameter;
 
 class Chain extends AbstractChain implements TronChainInterface
 {
@@ -53,8 +54,12 @@ class Chain extends AbstractChain implements TronChainInterface
     /**
      * @throws RpcException
      */
-    public function stake(string $address, string $addressPrivateKey, $amount, Resource $resource): string
-    {
+    public function stake(
+        string $address,
+        #[SensitiveParameter] string $addressPrivateKey,
+        $amount,
+        Resource $resource
+    ): string {
         $response = $this->rpcRequest('wallet/freezebalancev2', [
             'owner_address' => $address,
             'frozen_balance' => (int) ($amount * $this->getNativeCoinDecimals()),
@@ -70,8 +75,12 @@ class Chain extends AbstractChain implements TronChainInterface
     /**
      * @throws RpcException
      */
-    public function unStake(string $address, string $addressPrivateKey, $amount, Resource $resource): string
-    {
+    public function unStake(
+        string $address,
+        #[SensitiveParameter] string $addressPrivateKey,
+        $amount,
+        Resource $resource
+    ): string {
         $response = $this->rpcRequest('wallet/unfreezebalancev2', [
             'owner_address' => $address,
             'unfreeze_balance' => (int) ($amount * $this->getNativeCoinDecimals()),
@@ -87,8 +96,13 @@ class Chain extends AbstractChain implements TronChainInterface
     /**
      * @throws RpcException
      */
-    public function delegate(string $from, string $fromPrivateKey, string $to, $amount, Resource $resource): string
-    {
+    public function delegate(
+        string $from,
+        #[SensitiveParameter] string $fromPrivateKey,
+        string $to,
+        $amount,
+        Resource $resource
+    ): string {
         $response = $this->rpcRequest('wallet/delegateresource', [
             'owner_address' => $from,
             'resource' => $resource->value,
@@ -106,8 +120,13 @@ class Chain extends AbstractChain implements TronChainInterface
     /**
      * @throws RpcException
      */
-    public function unDelegate(string $from, string $fromPrivateKey, string $to, $amount, Resource $resource): string
-    {
+    public function unDelegate(
+        string $from,
+        #[SensitiveParameter] string $fromPrivateKey,
+        string $to,
+        $amount,
+        Resource $resource
+    ): string {
         $response = $this->rpcRequest('wallet/undelegateresource', [
             'owner_address' => $from,
             'resource' => $resource->value,
@@ -124,7 +143,7 @@ class Chain extends AbstractChain implements TronChainInterface
     /**
      * @throws RpcException
      */
-    protected function broadcast(array $data, string $privateKey): string
+    protected function broadcast(array $data, #[SensitiveParameter] string $privateKey): string
     {
         $data['signature'] = (new TransactionBuilder)->sign($data['txID'], $privateKey);
 

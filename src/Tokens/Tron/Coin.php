@@ -7,6 +7,7 @@ use Mitoop\Crypto\Exceptions\BalanceShortageException;
 use Mitoop\Crypto\Exceptions\RpcException;
 use Mitoop\Crypto\Support\NumberFormatter;
 use Mitoop\Crypto\Transactions\Coin\TransactionInfo;
+use SensitiveParameter;
 
 class Coin extends Chain implements CoinInterface
 {
@@ -102,8 +103,12 @@ class Coin extends Chain implements CoinInterface
      * @throws RpcException
      * @throws BalanceShortageException
      */
-    public function transfer(string $fromAddress, string $fromPrivateKey, string $toAddress, string $amount): string
-    {
+    public function transfer(
+        string $fromAddress,
+        #[SensitiveParameter] string $fromPrivateKey,
+        string $toAddress,
+        string $amount
+    ): string {
         $balance = $this->getBalance($fromAddress);
         $amount = bcmul($amount, bcpow(10, $this->getDecimals(), 0), 0);
 

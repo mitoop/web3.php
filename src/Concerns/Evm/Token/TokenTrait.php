@@ -11,6 +11,7 @@ use Mitoop\Crypto\Exceptions\RpcException;
 use Mitoop\Crypto\Support\NumberFormatter;
 use Mitoop\Crypto\Transactions\Token\Transaction;
 use Mitoop\Crypto\Transactions\Token\TransactionInfo;
+use SensitiveParameter;
 
 trait TokenTrait
 {
@@ -137,7 +138,12 @@ trait TokenTrait
      * @throws RpcException
      * @throws GasShortageException
      */
-    public function transfer(string $fromAddress, string $fromPrivateKey, string $toAddress, string $amount, bool $bestEffort = false): string
+    public function transfer(
+        string $fromAddress,
+        #[SensitiveParameter] string $fromPrivateKey,
+        string $toAddress,
+        string $amount,
+        bool $bestEffort = false): string
     {
         if (bccomp($amount, 0, $this->getDecimals()) <= 0) {
             throw new InvalidArgumentException('Invalid amount');

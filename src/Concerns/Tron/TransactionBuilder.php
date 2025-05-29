@@ -4,6 +4,7 @@ namespace Mitoop\Crypto\Concerns\Tron;
 
 use kornrunner\Secp256k1;
 use kornrunner\Signature\Signature;
+use SensitiveParameter;
 
 class TransactionBuilder
 {
@@ -16,7 +17,7 @@ class TransactionBuilder
         return $paddedAddress.$amountHex;
     }
 
-    public function sign($txId, $privateKey): array
+    public function sign($txId, #[SensitiveParameter] $privateKey): array
     {
         /** @var Signature $sign */
         $sign = (new Secp256k1)->sign($txId, $privateKey, ['canonical' => false]);

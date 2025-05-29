@@ -11,6 +11,7 @@ use Mitoop\Crypto\Support\Http\HttpMethod;
 use Mitoop\Crypto\Support\NumberFormatter;
 use Mitoop\Crypto\Transactions\Token\Transaction;
 use Mitoop\Crypto\Transactions\Token\TransactionInfo;
+use SensitiveParameter;
 
 class Token extends Chain implements TokenInterface
 {
@@ -136,8 +137,13 @@ class Token extends Chain implements TokenInterface
      * @throws BalanceShortageException
      * @throws RpcException
      */
-    public function transfer(string $fromAddress, string $fromPrivateKey, string $toAddress, string $amount, bool $bestEffort = false): string
-    {
+    public function transfer(
+        string $fromAddress,
+        #[SensitiveParameter] string $fromPrivateKey,
+        string $toAddress,
+        string $amount,
+        bool $bestEffort = false
+    ): string {
         $balance = $this->getBalance($fromAddress);
 
         if (bccomp($balance, $amount, $this->getDecimals()) <= 0) {

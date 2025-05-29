@@ -8,6 +8,7 @@ use Mitoop\Crypto\Exceptions\InvalidArgumentException;
 use Mitoop\Crypto\Exceptions\RpcException;
 use Mitoop\Crypto\Support\NumberFormatter;
 use Mitoop\Crypto\Transactions\Coin\TransactionInfo;
+use SensitiveParameter;
 
 trait CoinTrait
 {
@@ -85,8 +86,12 @@ trait CoinTrait
      * @throws GasShortageException
      * @throws InvalidArgumentException
      */
-    public function transfer(string $fromAddress, string $fromPrivateKey, string $toAddress, string $amount): string
-    {
+    public function transfer(
+        string $fromAddress,
+        #[SensitiveParameter] string $fromPrivateKey,
+        string $toAddress,
+        string $amount
+    ): string {
         if (bccomp($amount, 0, 0) <= 0) {
             throw new InvalidArgumentException('Invalid amount');
         }
