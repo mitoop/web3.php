@@ -72,7 +72,7 @@ trait EvmLike
         $fee = bcadd((string) $amount, bcmul($gasPrice, $estimatedGas), $this->getNativeCoinDecimals());
 
         if (bccomp($nativeBalance, $fee, $this->getNativeCoinDecimals()) < 0) {
-            throw new GasShortageException(sprintf('balance: %s, fee: %s', $nativeBalance, $fee));
+            throw new GasShortageException($nativeBalance, $fee);
         }
 
         $gasLimit = bcmul($estimatedGas, '1.2');
