@@ -35,7 +35,7 @@ class Coin extends Chain implements CoinInterface
         $balance = gmp_strval($response->json('balance'));
 
         if ($asDisplayAmount) {
-            return NumberFormatter::toDisplayAmount($balance, $this->getDecimals());
+            return NumberFormatter::formatUnits($balance, $this->getDecimals());
         }
 
         return $balance;
@@ -58,7 +58,7 @@ class Coin extends Chain implements CoinInterface
             return null;
         }
 
-        $fee = NumberFormatter::toDisplayAmount($response->json('fee'), $this->getDecimals());
+        $fee = NumberFormatter::formatUnits($response->json('fee'), $this->getDecimals());
 
         $response = $this->rpcRequest('walletsolidity/gettransactionbyid', [
             'value' => $txId,
@@ -74,7 +74,7 @@ class Coin extends Chain implements CoinInterface
             (string) $response->json('txID'),
             (string) $response->json('raw_data.contract.0.parameter.value.owner_address'),
             (string) $response->json('raw_data.contract.0.parameter.value.to_address'),
-            NumberFormatter::toDisplayAmount((string) $response->json('raw_data.contract.0.parameter.value.amount'), $this->getDecimals()),
+            NumberFormatter::formatUnits((string) $response->json('raw_data.contract.0.parameter.value.amount'), $this->getDecimals()),
             $fee,
         );
     }

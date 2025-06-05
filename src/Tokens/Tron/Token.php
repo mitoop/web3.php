@@ -30,7 +30,7 @@ class Token extends Chain implements TokenInterface
             'visible' => true,
         ]);
 
-        return NumberFormatter::toDisplayAmount('0x'.$response->json('constant_result.0'), $this->getDecimals());
+        return NumberFormatter::formatUnits('0x'.$response->json('constant_result.0'), $this->getDecimals());
     }
 
     /**
@@ -59,7 +59,7 @@ class Token extends Chain implements TokenInterface
                 $item['from'],
                 $item['to'],
                 $item['value'],
-                NumberFormatter::toDisplayAmount($item['value'], $decimals = (int) $item['token_info']['decimals']),
+                NumberFormatter::formatUnits($item['value'], $decimals = (int) $item['token_info']['decimals']),
                 $decimals,
             );
         }
@@ -96,7 +96,7 @@ class Token extends Chain implements TokenInterface
                 &&
                 strtolower($log['address']) === strtolower($this->toHexAddress($this->getContractAddress(), true))
             ) {
-                $value = NumberFormatter::toDisplayAmount('0x'.$log['data'], $this->getDecimals());
+                $value = NumberFormatter::formatUnits('0x'.$log['data'], $this->getDecimals());
                 $from = $this->toAddressFormat($log['topics'][1]);
                 $to = $this->toAddressFormat($log['topics'][2]);
                 break;

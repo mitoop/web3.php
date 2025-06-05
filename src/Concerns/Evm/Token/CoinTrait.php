@@ -33,7 +33,7 @@ trait CoinTrait
         $balance = gmp_strval(gmp_init($response->json('result'), 16));
 
         if ($asDisplayAmount) {
-            return NumberFormatter::toDisplayAmount($balance, $this->getDecimals());
+            return NumberFormatter::formatUnits($balance, $this->getDecimals());
         }
 
         return $balance;
@@ -62,13 +62,13 @@ trait CoinTrait
             0
         );
 
-        $fee = NumberFormatter::toDisplayAmount($fee, $this->getNativeCoinDecimals());
+        $fee = NumberFormatter::formatUnits($fee, $this->getNativeCoinDecimals());
 
         $response = $this->rpcRequest('eth_getTransactionByHash', [
             $txId,
         ]);
 
-        $amount = NumberFormatter::toDisplayAmount($response->json('result.value'), $this->getDecimals());
+        $amount = NumberFormatter::formatUnits($response->json('result.value'), $this->getDecimals());
 
         return new TransactionInfo(
             true,

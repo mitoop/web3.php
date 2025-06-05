@@ -13,7 +13,7 @@ class NumberFormatter
         return rtrim(rtrim($number, '0'), '.');
     }
 
-    public static function toDisplayAmount($amount, $decimals, bool $removeTrailingZeros = true): string
+    public static function formatUnits($amount, $decimals, bool $removeTrailingZeros = true): string
     {
         $decimals = (string) $decimals;
 

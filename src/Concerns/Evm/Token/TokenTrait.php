@@ -35,7 +35,7 @@ trait TokenTrait
             'latest',
         ]);
 
-        return NumberFormatter::toDisplayAmount($response->json('result'), $this->getDecimals());
+        return NumberFormatter::formatUnits($response->json('result'), $this->getDecimals());
     }
 
     /**
@@ -67,7 +67,7 @@ trait TokenTrait
                 $this->toAddressFormat($item['topics'][1]),
                 $this->toAddressFormat($item['topics'][2]),
                 $item['data'],
-                NumberFormatter::toDisplayAmount($item['data'], $this->getDecimals()),
+                NumberFormatter::formatUnits($item['data'], $this->getDecimals()),
                 $this->getDecimals(),
             );
         }
@@ -109,7 +109,7 @@ trait TokenTrait
                 &&
                 ! $log['removed']
             ) {
-                $amount = NumberFormatter::toDisplayAmount($log['data'] ?? '0x0', $this->getDecimals());
+                $amount = NumberFormatter::formatUnits($log['data'] ?? '0x0', $this->getDecimals());
                 $to = $this->toAddressFormat($log['topics'][2]);
             }
         }
@@ -120,7 +120,7 @@ trait TokenTrait
             0
         );
 
-        $fee = NumberFormatter::toDisplayAmount($fee, $this->getNativeCoinDecimals());
+        $fee = NumberFormatter::formatUnits($fee, $this->getNativeCoinDecimals());
 
         return new TransactionInfo(
             true,
