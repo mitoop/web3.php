@@ -8,7 +8,7 @@ use Mitoop\Crypto\Contracts\TokenInterface;
 use Mitoop\Crypto\Exceptions\BalanceShortageException;
 use Mitoop\Crypto\Exceptions\RpcException;
 use Mitoop\Crypto\Support\Http\HttpMethod;
-use Mitoop\Crypto\Support\NumberFormatter;
+use Mitoop\Crypto\Support\UnitFormatter;
 use Mitoop\Crypto\Transactions\Token\Transaction;
 use Mitoop\Crypto\Transactions\Token\TransactionInfo;
 use SensitiveParameter;
@@ -30,7 +30,7 @@ class Token extends Chain implements TokenInterface
             'visible' => true,
         ]);
 
-        return NumberFormatter::formatUnits('0x'.$response->json('constant_result.0'), $this->getDecimals());
+        return UnitFormatter::formatUnits('0x'.$response->json('constant_result.0'), $this->getDecimals());
     }
 
     /**
@@ -59,7 +59,7 @@ class Token extends Chain implements TokenInterface
                 $item['from'],
                 $item['to'],
                 $item['value'],
-                NumberFormatter::formatUnits($item['value'], $decimals = (int) $item['token_info']['decimals']),
+                UnitFormatter::formatUnits($item['value'], $decimals = (int) $item['token_info']['decimals']),
                 $decimals,
             );
         }
@@ -96,7 +96,7 @@ class Token extends Chain implements TokenInterface
                 &&
                 strtolower($log['address']) === strtolower($this->toHexAddress($this->getContractAddress(), true))
             ) {
-                $value = NumberFormatter::formatUnits('0x'.$log['data'], $this->getDecimals());
+                $value = UnitFormatter::formatUnits('0x'.$log['data'], $this->getDecimals());
                 $from = $this->toAddressFormat($log['topics'][1]);
                 $to = $this->toAddressFormat($log['topics'][2]);
                 break;

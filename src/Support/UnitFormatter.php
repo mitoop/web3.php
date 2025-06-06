@@ -2,7 +2,7 @@
 
 namespace Mitoop\Crypto\Support;
 
-class NumberFormatter
+class UnitFormatter
 {
     public static function removeTrailingZeros(string $number): string
     {

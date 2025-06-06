@@ -5,7 +5,7 @@ namespace Mitoop\Crypto\Tokens\Tron;
 use Mitoop\Crypto\Contracts\CoinInterface;
 use Mitoop\Crypto\Exceptions\BalanceShortageException;
 use Mitoop\Crypto\Exceptions\RpcException;
-use Mitoop\Crypto\Support\NumberFormatter;
+use Mitoop\Crypto\Support\UnitFormatter;
 use Mitoop\Crypto\Transactions\Coin\TransactionInfo;
 use SensitiveParameter;
 
@@ -35,7 +35,7 @@ class Coin extends Chain implements CoinInterface
         $balance = gmp_strval($response->json('balance'));
 
         if ($asDisplayAmount) {
-            return NumberFormatter::formatUnits($balance, $this->getDecimals());
+            return UnitFormatter::formatUnits($balance, $this->getDecimals());
         }
 
         return $balance;
@@ -58,7 +58,7 @@ class Coin extends Chain implements CoinInterface
             return null;
         }
 
-        $fee = NumberFormatter::formatUnits($response->json('fee'), $this->getDecimals());
+        $fee = UnitFormatter::formatUnits($response->json('fee'), $this->getDecimals());
 
         $response = $this->rpcRequest('walletsolidity/gettransactionbyid', [
             'value' => $txId,
@@ -74,7 +74,7 @@ class Coin extends Chain implements CoinInterface
             (string) $response->json('txID'),
             (string) $response->json('raw_data.contract.0.parameter.value.owner_address'),
             (string) $response->json('raw_data.contract.0.parameter.value.to_address'),
-            NumberFormatter::formatUnits((string) $response->json('raw_data.contract.0.parameter.value.amount'), $this->getDecimals()),
+            UnitFormatter::formatUnits((string) $response->json('raw_data.contract.0.parameter.value.amount'), $this->getDecimals()),
             $fee,
         );
     }
