@@ -1,6 +1,6 @@
 <?php
 
-namespace Mitoop\Crypto\Transactions\Token;
+namespace Mitoop\Crypto\Transactions;
 
 class Transaction
 {

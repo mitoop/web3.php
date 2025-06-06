@@ -1,6 +1,6 @@
 <?php
 
-namespace Mitoop\Crypto\Transactions\Coin;
+namespace Mitoop\Crypto\Transactions;
 
 class TransactionInfo
 {

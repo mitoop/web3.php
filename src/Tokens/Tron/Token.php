@@ -9,8 +9,8 @@ use Mitoop\Crypto\Exceptions\BalanceShortageException;
 use Mitoop\Crypto\Exceptions\RpcException;
 use Mitoop\Crypto\Support\Http\HttpMethod;
 use Mitoop\Crypto\Support\UnitFormatter;
-use Mitoop\Crypto\Transactions\Token\Transaction;
-use Mitoop\Crypto\Transactions\Token\TransactionInfo;
+use Mitoop\Crypto\Transactions\Transaction;
+use Mitoop\Crypto\Transactions\TransactionInfo;
 use SensitiveParameter;
 
 class Token extends Chain implements TokenInterface

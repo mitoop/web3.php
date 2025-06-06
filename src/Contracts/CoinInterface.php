@@ -2,7 +2,7 @@
 
 namespace Mitoop\Crypto\Contracts;
 
-use Mitoop\Crypto\Transactions\Coin\TransactionInfo;
+use Mitoop\Crypto\Transactions\TransactionInfo;
 use SensitiveParameter;
 
 interface CoinInterface

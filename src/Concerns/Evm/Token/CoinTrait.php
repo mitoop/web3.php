@@ -7,7 +7,7 @@ use Mitoop\Crypto\Exceptions\GasShortageException;
 use Mitoop\Crypto\Exceptions\InvalidArgumentException;
 use Mitoop\Crypto\Exceptions\RpcException;
 use Mitoop\Crypto\Support\UnitFormatter;
-use Mitoop\Crypto\Transactions\Coin\TransactionInfo;
+use Mitoop\Crypto\Transactions\TransactionInfo;
 use SensitiveParameter;
 
 trait CoinTrait

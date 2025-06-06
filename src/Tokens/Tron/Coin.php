@@ -6,7 +6,7 @@ use Mitoop\Crypto\Contracts\CoinInterface;
 use Mitoop\Crypto\Exceptions\BalanceShortageException;
 use Mitoop\Crypto\Exceptions\RpcException;
 use Mitoop\Crypto\Support\UnitFormatter;
-use Mitoop\Crypto\Transactions\Coin\TransactionInfo;
+use Mitoop\Crypto\Transactions\TransactionInfo;
 use SensitiveParameter;
 
 class Coin extends Chain implements CoinInterface
