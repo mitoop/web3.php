@@ -19,7 +19,7 @@ use Mitoop\Crypto\Factory;
 
 // Get native coin instance
 $token = Factory::createCoin([
-   'chain' => 'eth', // Blockchain: eth (Ethereum)/bsc (Binance Smart Chain)/polygon (Polygon)/tron (TRON)
+   'chain' => 'eth', // Blockchain: eth (Ethereum)/bsc (Binance Smart ChainContext)/polygon (Polygon)/tron (TRON)
    'chain_id' => 11155111, // Blockchain ID (Tron can be set to 0)
    'rpc_url' => 'https://sepolia.infura.io/v3/your_api_key', // RPC URL
    'rpc_api_key' => '', // API key (leave empty if none)
@@ -31,7 +31,7 @@ $token->getBalance();
 
 // Get token instance
 $token = Factory::createToken([
-   'chain' => 'eth', // Blockchain: eth (Ethereum)/bsc (Binance Smart Chain)/polygon (Polygon)/tron (TRON)
+   'chain' => 'eth', // Blockchain: eth (Ethereum)/bsc (Binance Smart ChainContext)/polygon (Polygon)/tron (TRON)
    'chain_id' => 11155111, // Blockchain ID (Tron can be set to 0)
    'contract_address' => '0x779877A7B0D9E8603169DdbD7836e478b4624789', // Token contract address
    'decimals' => 18, // Token decimals

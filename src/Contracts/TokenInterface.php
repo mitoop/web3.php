@@ -5,7 +5,7 @@ namespace Mitoop\Crypto\Contracts;
 use Mitoop\Crypto\Transactions\TransactionInfo;
 use SensitiveParameter;
 
-interface TokenInterface extends ChainInterface
+interface TokenInterface extends ChainContextInterface
 {
     public function getNativeCoin(): CoinInterface;
 

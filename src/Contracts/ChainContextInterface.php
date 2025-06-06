@@ -6,7 +6,7 @@ use Mitoop\Crypto\Support\Http\BizResponseInterface;
 use Mitoop\Crypto\Support\Http\HttpMethod;
 use Mitoop\Crypto\Wallets\Wallet;
 
-interface ChainInterface
+interface ChainContextInterface
 {
     public function generateWallet(): Wallet;
 

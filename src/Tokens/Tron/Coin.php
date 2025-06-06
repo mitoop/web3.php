@@ -9,7 +9,7 @@ use Mitoop\Crypto\Support\UnitFormatter;
 use Mitoop\Crypto\Transactions\TransactionInfo;
 use SensitiveParameter;
 
-class Coin extends Chain implements CoinInterface
+class Coin extends ChainContext implements CoinInterface
 {
     public function symbol(): string
     {

@@ -4,7 +4,7 @@ namespace Mitoop\Crypto\Contracts\Tron;
 
 use Mitoop\Crypto\Concerns\Tron\Resource;
 
-interface TronChainInterface
+interface TronChainContextInterface
 {
     public function getAccountResource(string $address): array;
 

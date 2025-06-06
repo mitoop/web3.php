@@ -2,18 +2,18 @@
 
 namespace Mitoop\Crypto\Tokens\Tron;
 
-use Mitoop\Crypto\Concerns\Chain\AbstractChain;
+use Mitoop\Crypto\Concerns\AbstractChainContext;
 use Mitoop\Crypto\Concerns\Tron\AddressFormatter;
 use Mitoop\Crypto\Concerns\Tron\Resource;
 use Mitoop\Crypto\Concerns\Tron\TransactionBuilder;
-use Mitoop\Crypto\Contracts\Tron\TronChainInterface;
+use Mitoop\Crypto\Contracts\Tron\TronChainContextInterface;
 use Mitoop\Crypto\Exceptions\RpcException;
 use Mitoop\Crypto\Support\Http\BizResponseInterface;
 use Mitoop\Crypto\Support\Http\HttpMethod;
 use Mitoop\Crypto\Support\Http\TronResponse;
 use SensitiveParameter;
 
-class Chain extends AbstractChain implements TronChainInterface
+class ChainContext extends AbstractChainContext implements TronChainContextInterface
 {
     use AddressFormatter;
 

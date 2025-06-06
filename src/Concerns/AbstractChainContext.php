@@ -1,8 +1,8 @@
 <?php
 
-namespace Mitoop\Crypto\Concerns\Chain;
+namespace Mitoop\Crypto\Concerns;
 
-use Mitoop\Crypto\Contracts\ChainInterface;
+use Mitoop\Crypto\Contracts\ChainContextInterface;
 use Mitoop\Crypto\Support\Http\BizResponseInterface;
 use Mitoop\Crypto\Support\Http\HttpRequestClient;
 use Mitoop\Crypto\Support\Http\Response;
@@ -12,7 +12,7 @@ use Mitoop\Crypto\Wallets\Wallet;
 /**
  * @method BizResponseInterface|Response postJson($endpoint, $jsonData = [], $headers = [])
  */
-abstract class AbstractChain implements ChainInterface
+abstract class AbstractChainContext implements ChainContextInterface
 {
     use HttpRequestClient;
 

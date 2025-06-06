@@ -13,7 +13,7 @@ use Mitoop\Crypto\Transactions\Transaction;
 use Mitoop\Crypto\Transactions\TransactionInfo;
 use SensitiveParameter;
 
-class Token extends Chain implements TokenInterface
+class Token extends ChainContext implements TokenInterface
 {
     use HasTokenProperties;
 
