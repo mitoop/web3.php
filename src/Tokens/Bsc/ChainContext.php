@@ -3,11 +3,11 @@
 namespace Mitoop\Crypto\Tokens\Bsc;
 
 use Mitoop\Crypto\Concerns\AbstractChainContext;
-use Mitoop\Crypto\Concerns\Evm\Chain\EvmLike;
+use Mitoop\Crypto\Concerns\Evm\Traits\EvmLikeChain;
 
 class ChainContext extends AbstractChainContext
 {
-    use EvmLike;
+    use EvmLikeChain;
 
     protected function supportsEIP1559Transaction(): bool
     {

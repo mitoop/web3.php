@@ -1,6 +1,6 @@
 <?php
 
-namespace Mitoop\Crypto\Concerns\Evm\Token;
+namespace Mitoop\Crypto\Concerns\Evm\Traits;
 
 use Mitoop\Crypto\Exceptions\BalanceShortageException;
 use Mitoop\Crypto\Exceptions\GasShortageException;
@@ -12,7 +12,7 @@ use SensitiveParameter;
 
 trait CoinTrait
 {
-    use EvmLike;
+    use EvmLikeToken;
 
     public function getDecimals(): int
     {

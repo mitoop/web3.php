@@ -1,6 +1,6 @@
 <?php
 
-namespace Mitoop\Crypto\Concerns\Evm\Token;
+namespace Mitoop\Crypto\Concerns\Evm\Traits;
 
 use Mitoop\Crypto\Concerns\Evm\Transactions\TransactionBuilder;
 use Mitoop\Crypto\Concerns\HasTokenProperties;
@@ -15,7 +15,7 @@ use SensitiveParameter;
 
 trait TokenTrait
 {
-    use EvmLike,HasTokenProperties;
+    use EvmLikeToken,HasTokenProperties;
 
     /**
      * @throws RpcException

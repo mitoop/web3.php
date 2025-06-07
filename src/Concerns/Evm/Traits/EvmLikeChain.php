@@ -1,13 +1,13 @@
 <?php
 
-namespace Mitoop\Crypto\Concerns\Evm\Chain;
+namespace Mitoop\Crypto\Concerns\Evm\Traits;
 
 use Mitoop\Crypto\Exceptions\RpcException;
 use Mitoop\Crypto\Support\Http\BizResponseInterface;
 use Mitoop\Crypto\Support\Http\EvmResponse;
 use Mitoop\Crypto\Support\Http\HttpMethod;
 
-trait EvmLike
+trait EvmLikeChain
 {
     use AddressFormatter;
 

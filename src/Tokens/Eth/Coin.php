@@ -2,7 +2,7 @@
 
 namespace Mitoop\Crypto\Tokens\Eth;
 
-use Mitoop\Crypto\Concerns\Evm\Token\CoinTrait;
+use Mitoop\Crypto\Concerns\Evm\Traits\CoinTrait;
 use Mitoop\Crypto\Contracts\CoinInterface;
 
 class Coin extends ChainContext implements CoinInterface
