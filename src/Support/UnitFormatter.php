@@ -4,13 +4,9 @@ namespace Mitoop\Crypto\Support;
 
 class UnitFormatter
 {
-    public static function removeTrailingZeros(string $number): string
+    public static function removeTrailingZeros(string $number, $decimals): string
     {
-        if (! str_contains($number, '.')) {
-            return $number;
-        }
-
-        return rtrim(rtrim($number, '0'), '.');
+        return bcadd($number, '0', $decimals);
     }
 
     public static function formatUnits($amount, $decimals, bool $removeTrailingZeros = true): string
@@ -21,8 +17,8 @@ class UnitFormatter
             $amount = gmp_strval(gmp_init($amount, 16));
         }
 
-        $displayAmount = bcdiv($amount, bcpow(10, $decimals, 0), $decimals);
+        $amount = bcdiv($amount, bcpow(10, $decimals, 0), $decimals);
 
-        return $removeTrailingZeros ? self::removeTrailingZeros($displayAmount) : $displayAmount;
+        return $removeTrailingZeros ? self::removeTrailingZeros($amount, $decimals) : $amount;
     }
 }
