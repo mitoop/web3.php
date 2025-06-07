@@ -66,19 +66,19 @@ trait EvmLikeToken
      * @throws GasShortageException
      * @throws RpcException
      */
-    protected function computeGas(string $estimatedGas, string $nativeBalance, $amount = 0): array
+    protected function computeGas(string $estimatedGas, string $nativeBalance, string $amount = '0'): array
     {
+        $gasBuffer = '1.2';
         $gasPrice = $this->getGasPrice();
-        $fee = bcadd((string) $amount, bcmul($gasPrice, $estimatedGas), $this->getNativeCoinDecimals());
+        $fee = bcmul(bcmul($gasPrice, $estimatedGas, 0), $gasBuffer, 0);
+        $totalCost = bcadd($amount, $fee, 0);
 
-        if (bccomp($nativeBalance, $fee, $this->getNativeCoinDecimals()) < 0) {
-            throw new GasShortageException($nativeBalance, $fee);
+        if (bccomp($nativeBalance, $totalCost, 0) < 0) {
+            throw new GasShortageException($nativeBalance, $totalCost);
         }
 
-        $gasLimit = bcmul($estimatedGas, '1.2');
-        $gasLimit = bcdiv($gasLimit, '1', 0);
+        $gasLimit = bcmul($estimatedGas, $gasBuffer, 0);
         $gasLimit = gmp_strval(gmp_init($gasLimit, 10), 16);
-
         $gasPrice = gmp_strval(gmp_init($gasPrice, 10), 16);
 
         return [$gasPrice, $gasLimit];
