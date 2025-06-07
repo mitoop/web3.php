@@ -68,16 +68,16 @@ trait EvmLikeToken
      */
     protected function computeGas(string $estimatedGas, string $nativeBalance, string $amount = '0'): array
     {
-        $gasBuffer = '1.2';
+        $buffer = '1.2';
         $gasPrice = $this->getGasPrice();
-        $fee = bcmul(bcmul($gasPrice, $estimatedGas, 0), $gasBuffer, 0);
+        $fee = bcmul(bcmul($gasPrice, $estimatedGas, 0), $buffer, 0);
         $totalCost = bcadd($amount, $fee, 0);
 
         if (bccomp($nativeBalance, $totalCost, 0) < 0) {
             throw new GasShortageException($nativeBalance, $totalCost);
         }
 
-        $gasLimit = bcmul($estimatedGas, $gasBuffer, 0);
+        $gasLimit = bcmul($estimatedGas, $buffer, 0);
         $gasLimit = gmp_strval(gmp_init($gasLimit, 10), 16);
         $gasPrice = gmp_strval(gmp_init($gasPrice, 10), 16);
 
@@ -117,20 +117,21 @@ trait EvmLikeToken
         string $value = '',
         string $data = ''
     ): string {
-        [$baseFeePerGas, $maxPriorityFeePerGas] = $this->getBaseFeePerGas();
+        [$baseFeePerGasHex, $maxPriorityFeePerGasHex] = $this->getBaseFeePerGas();
 
-        $baseFeeWei = gmp_init($baseFeePerGas, 16);
-        $priorityFeeWei = gmp_init($maxPriorityFeePerGas, 16);
+        $baseFeeWei = gmp_strval(gmp_init($baseFeePerGasHex, 16));
+        $priorityFeeWei = gmp_strval(gmp_init($maxPriorityFeePerGasHex, 16));
 
-        if (gmp_cmp($priorityFeeWei, 0) <= 0) {
-            $priorityFeeWei = gmp_init('25000000000');
+        if (bccomp($priorityFeeWei, '0', 0) <= 0) {
+            $priorityFeeWei = '25000000000';
         }
 
-        $totalFeeWei = gmp_add($baseFeeWei, $priorityFeeWei);
-        $maxFeeWei = gmp_div_q(gmp_mul($totalFeeWei, 12), 10);
+        $totalFeeWei = bcadd($baseFeeWei, $priorityFeeWei, 0);
+        $buffer = '1.2';
+        $totalFeeWei = bcmul($totalFeeWei, $buffer, 0);
 
-        $maxFeePerGas = gmp_strval($maxFeeWei, 16);
-        $maxPriorityFeePerGas = gmp_strval($priorityFeeWei, 16);
+        $maxFeePerGas = '0x'.gmp_strval(gmp_init($totalFeeWei, 10), 16);
+        $maxPriorityFeePerGas = '0x'.gmp_strval(gmp_init($priorityFeeWei, 10), 16);
 
         $transaction = new EIP1559Transaction(
             $nonce,
