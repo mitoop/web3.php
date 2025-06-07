@@ -68,16 +68,15 @@ trait EvmLikeToken
      */
     protected function computeGas(string $estimatedGas, string $nativeBalance, string $amount = '0'): array
     {
-        $buffer = '1.2';
         $gasPrice = $this->getGasPrice();
-        $fee = bcmul(bcmul($gasPrice, $estimatedGas, 0), $buffer, 0);
+        $fee = bcmul(bcmul($gasPrice, $estimatedGas, 0), $this->getFeeBuffer(), 0);
         $totalCost = bcadd($amount, $fee, 0);
 
         if (bccomp($nativeBalance, $totalCost, 0) < 0) {
             throw new GasShortageException($nativeBalance, $totalCost);
         }
 
-        $gasLimit = bcmul($estimatedGas, $buffer, 0);
+        $gasLimit = bcmul($estimatedGas, $this->getFeeBuffer(), 0);
         $gasLimit = gmp_strval(gmp_init($gasLimit, 10), 16);
         $gasPrice = gmp_strval(gmp_init($gasPrice, 10), 16);
 
@@ -127,8 +126,7 @@ trait EvmLikeToken
         }
 
         $totalFeeWei = bcadd($baseFeeWei, $priorityFeeWei, 0);
-        $buffer = '1.2';
-        $totalFeeWei = bcmul($totalFeeWei, $buffer, 0);
+        $totalFeeWei = bcmul($totalFeeWei, $this->getFeeBuffer(), 0);
 
         $maxFeePerGas = '0x'.gmp_strval(gmp_init($totalFeeWei, 10), 16);
         $maxPriorityFeePerGas = '0x'.gmp_strval(gmp_init($priorityFeeWei, 10), 16);
@@ -148,5 +146,10 @@ trait EvmLikeToken
 
         // 🌰 "0x5ec2cfcec7693750992a26f07b4eaa7d3fc792021d105dfdbf78989c9d4df18a"
         return $response->json('result');
+    }
+
+    protected function getFeeBuffer(): string
+    {
+        return '1.2';
     }
 }
