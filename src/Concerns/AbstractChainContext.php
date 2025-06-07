@@ -3,6 +3,7 @@
 namespace Mitoop\Crypto\Concerns;
 
 use Mitoop\Crypto\Contracts\ChainContextInterface;
+use Mitoop\Crypto\RpcProviders\RpcProviderFactory;
 use Mitoop\Crypto\Support\Http\BizResponseInterface;
 use Mitoop\Crypto\Support\Http\HttpRequestClient;
 use Mitoop\Crypto\Support\Http\Response;
@@ -40,13 +41,6 @@ abstract class AbstractChainContext implements ChainContextInterface
 
     protected function getGuzzleOptions(): array
     {
-        return [
-            'base_uri' => $this->config('rpc_url'),
-            'timeout' => $this->config('rpc_timeout', 120),
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
-            ],
-        ];
+        return RpcProviderFactory::create($this->config)->getGuzzleOptions();
     }
 }
