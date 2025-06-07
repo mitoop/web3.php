@@ -22,7 +22,7 @@ trait CoinTrait
     /**
      * @throws RpcException
      */
-    public function getBalance(string $address, bool $asDisplayAmount = false): string
+    public function getBalance(string $address, bool $asUnit = false): string
     {
         $response = $this->rpcRequest('eth_getBalance', [
             $address,
@@ -32,7 +32,7 @@ trait CoinTrait
         // 🌰 "0x853a0d2313c0000" => "600000000000000000" wei
         $balance = gmp_strval(gmp_init($response->json('result'), 16));
 
-        if ($asDisplayAmount) {
+        if ($asUnit) {
             return UnitFormatter::formatUnits($balance, $this->getDecimals());
         }
 

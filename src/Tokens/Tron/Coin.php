@@ -24,7 +24,7 @@ class Coin extends ChainContext implements CoinInterface
     /**
      * @throws RpcException
      */
-    public function getBalance(string $address, bool $asDisplayAmount = false): string
+    public function getBalance(string $address, bool $asUnit = false): string
     {
         $response = $this->rpcRequest('walletsolidity/getaccount', [
             'address' => $address,
@@ -34,7 +34,7 @@ class Coin extends ChainContext implements CoinInterface
         // 🌰 6000000000 sun
         $balance = gmp_strval($response->json('balance'));
 
-        if ($asDisplayAmount) {
+        if ($asUnit) {
             return UnitFormatter::formatUnits($balance, $this->getDecimals());
         }
 
