@@ -8,14 +8,6 @@ class RpcProviderFactory
     {
         $url = strtolower($config['rpc_url'] ?? '');
 
-        if (str_contains($url, 'infura.io')) {
-            return new InfuraProvider($config);
-        }
-
-        if (str_contains($url, 'ankr.com')) {
-            return new AnkrProvider($config);
-        }
-
         if (str_contains($url, 'trongrid.io')) {
             return new TronGridProvider($config);
         }
