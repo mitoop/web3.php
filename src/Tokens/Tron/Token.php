@@ -109,7 +109,7 @@ class Token extends ChainContext implements TokenInterface
             $from,
             $to,
             $value,
-            json_encode(['net' => $response->json('receipt.net_usage'), 'energy' => $response->json('receipt.energy_usage_total')]),
+            UnitFormatter::formatUnits($response->json('fee'), $this->getNativeCoinDecimals()),
         );
     }
 
