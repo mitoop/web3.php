@@ -15,6 +15,7 @@
     "require": {
         "php": "^8.3",
         "ext-bcmath": "*",
+        "ext-ctype": "*",
         "ext-gmp": "*",
         "simplito/elliptic-php": "^1.0",
         "kornrunner/keccak": "^1.1",
