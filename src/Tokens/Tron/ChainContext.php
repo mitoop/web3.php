@@ -155,6 +155,75 @@ class ChainContext extends AbstractChainContext implements TronChainContextInter
     /**
      * @throws RpcException
      */
+    public function getBandwidthPrices(): array
+    {
+        $response = $this->rpcRequest('wallet/getbandwidthprices');
+
+        return $this->parsePriceHistoryString($response->json('prices'));
+    }
+
+    /**
+     * @throws RpcException
+     */
+    public function getBandwidthPrice(): string
+    {
+        $prices = $this->getBandwidthPrices();
+
+        return (string) end($prices);
+    }
+
+    /**
+     * @throws RpcException
+     */
+    public function getEnergyPrices(): array
+    {
+        $response = $this->rpcRequest('wallet/getenergyprices');
+
+        return $this->parsePriceHistoryString($response->json('prices'));
+
+    }
+
+    /**
+     * @throws RpcException
+     */
+    public function getEnergyPrice(): string
+    {
+        $prices = $this->getEnergyPrices();
+
+        return (string) end($prices);
+    }
+
+    /**
+     * @throws RpcException
+     */
+    protected function parsePriceHistoryString(?string $input): array
+    {
+        if (empty($input)) {
+            throw new RpcException('Input string is empty or null.');
+        }
+
+        $map = [];
+
+        foreach (explode(',', $input) as $pair) {
+            if (! str_contains($pair, ':')) {
+                continue;
+            }
+
+            [$key, $value] = explode(':', $pair, 2);
+
+            $map[trim($key)] = trim($value);
+        }
+
+        if (empty($map)) {
+            throw new RpcException('Parsed result is empty after processing input string');
+        }
+
+        return $map;
+    }
+
+    /**
+     * @throws RpcException
+     */
     public function rpcRequest(string $method, array $params = [], HttpMethod $httpMethod = HttpMethod::POST): BizResponseInterface
     {
         $response = match ($httpMethod) {
