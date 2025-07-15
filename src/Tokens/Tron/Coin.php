@@ -5,6 +5,7 @@ namespace Mitoop\Crypto\Tokens\Tron;
 use Mitoop\Crypto\Contracts\CoinInterface;
 use Mitoop\Crypto\Exceptions\BalanceShortageException;
 use Mitoop\Crypto\Exceptions\RpcException;
+use Mitoop\Crypto\Exceptions\TransactionExecutionFailedException;
 use Mitoop\Crypto\Support\UnitFormatter;
 use Mitoop\Crypto\Transactions\TransactionInfo;
 use SensitiveParameter;
@@ -43,6 +44,7 @@ class Coin extends ChainContext implements CoinInterface
 
     /**
      * @throws RpcException
+     * @throws TransactionExecutionFailedException
      */
     public function getTransaction(string $txId): ?TransactionInfo
     {
@@ -52,6 +54,10 @@ class Coin extends ChainContext implements CoinInterface
 
         if (empty($response->json())) {
             return null;
+        }
+
+        if ($response->json('result') === 'FAILED') {
+            throw new TransactionExecutionFailedException(hex2bin($response->json('resMessage')));
         }
 
         if (is_null($response->json('blockNumber'))) {
