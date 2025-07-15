@@ -17,6 +17,10 @@ class ChainContext extends AbstractChainContext implements TronChainContextInter
 {
     use AddressFormatter;
 
+    protected ?string $bandwidthPrice = null;
+
+    protected ?string $energyPrice = null;
+
     public function getChainId(bool $preferLocal = true): int
     {
         return 0;
@@ -167,9 +171,20 @@ class ChainContext extends AbstractChainContext implements TronChainContextInter
      */
     public function getBandwidthPrice(): string
     {
+        if (! is_null($this->bandwidthPrice)) {
+            return $this->bandwidthPrice;
+        }
+
         $prices = $this->getBandwidthPrices();
 
         return (string) end($prices);
+    }
+
+    public function setBandwidthPrice(string $price): static
+    {
+        $this->bandwidthPrice = $price;
+
+        return $this;
     }
 
     /**
@@ -187,9 +202,20 @@ class ChainContext extends AbstractChainContext implements TronChainContextInter
      */
     public function getEnergyPrice(): string
     {
+        if (! is_null($this->energyPrice)) {
+            return $this->energyPrice;
+        }
+
         $prices = $this->getEnergyPrices();
 
         return (string) end($prices);
+    }
+
+    public function setEnergyPrice(string $price): static
+    {
+        $this->energyPrice = $price;
+
+        return $this;
     }
 
     /**
