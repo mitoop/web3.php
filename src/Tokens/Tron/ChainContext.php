@@ -180,7 +180,6 @@ class ChainContext extends AbstractChainContext implements TronChainContextInter
         $response = $this->rpcRequest('wallet/getenergyprices');
 
         return $this->parsePriceHistoryString($response->json('prices'));
-
     }
 
     /**
