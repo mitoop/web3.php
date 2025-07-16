@@ -28,7 +28,7 @@ class OKLinkExplorer extends BaseExplorer
             $txId = substr($txId, 2);
         }
 
-        return sprintf('%s/%s/%s/tx/%s', $this->baseUrl, $this->lang, $this->mapChain(strtolower($chain)), $txId);
+        return sprintf('%s/%s/%s/tx/%s', $this->baseUrl, $this->lang, $this->mapChain($chain), $txId);
     }
 
     protected function mapChain(string $chain): string
