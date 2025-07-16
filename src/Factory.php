@@ -20,7 +20,7 @@ class Factory
      *       rpc_url: string,
      *       rpc_timeout: ?int,
      *       rpc_api_key: string,
-     *       explorer_url: string
+     *       explorer_url: string|array
      *   } $config Configuration for initializing the token instance.
      *
      * @throws InvalidArgumentException
@@ -37,7 +37,7 @@ class Factory
      *        rpc_url: string,
      *        rpc_timeout: ?int,
      *        rpc_api_key: string,
-     *        explorer_url: string
+     *        explorer_url: string|array
      *    } $config Configuration for initializing the coin instance.
      *
      * @throws InvalidArgumentException
@@ -67,7 +67,9 @@ class Factory
         /** @var CoinInterface|TokenInterface $instance */
         $instance = new $class($config);
 
-        $instance->setExplorers(ExplorerBuilder::build($config['explorer_url']));
+        $explorers = (new ExplorerBuilder($config['explorer_map'] ?? null))->build($config['explorer_url']);
+
+        $instance->setExplorers($explorers);
 
         return $instance;
     }

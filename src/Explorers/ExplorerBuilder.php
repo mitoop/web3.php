@@ -6,15 +6,22 @@ use Mitoop\Crypto\Exceptions\InvalidArgumentException;
 
 class ExplorerBuilder
 {
+    protected array $map = [];
+
+    public function __construct(?array $customMap = null)
+    {
+        $this->map = $customMap ?? $this->defaultMap();
+    }
+
     /**
      * @throws InvalidArgumentException
      */
-    public static function build(string|array $explorerUrl): array
+    public function build(string|array $explorerUrl): array
     {
         $list = [];
 
         foreach ((array) $explorerUrl as $url) {
-            [$type, $class] = self::resolveExplorer($url);
+            [$type, $class] = $this->resolveExplorer($url);
 
             $list[$type->value] = new $class($url);
         }
@@ -25,22 +32,25 @@ class ExplorerBuilder
     /**
      * @throws InvalidArgumentException
      */
-    protected static function resolveExplorer(string $url): array
+    protected function resolveExplorer(string $url): array
     {
-        $map = [
-            'oklink.com' => [ExplorerType::OKLINK, OKLinkExplorer::class],
-            'etherscan.io' => [ExplorerType::ETHERSCAN, EvmExplorer::class],
-            'bscscan.com' => [ExplorerType::BSCSCAN, EvmExplorer::class],
-            'polygonscan.com' => [ExplorerType::POLYGONSCAN, EvmExplorer::class],
-            'tronscan.org' => [ExplorerType::TRONSCAN, TronExplorer::class],
-        ];
-
-        foreach ($map as $needle => [$type, $class]) {
+        foreach ($this->map as $needle => [$type, $class]) {
             if (str_contains($url, $needle)) {
                 return [$type, $class];
             }
         }
 
         throw new InvalidArgumentException(sprintf('Unsupported explorer URL: %s', $url));
+    }
+
+    protected function defaultMap(): array
+    {
+        return [
+            'oklink.com' => [ExplorerType::OKLINK, OKLinkExplorer::class],
+            'etherscan.io' => [ExplorerType::ETHERSCAN, EvmExplorer::class],
+            'bscscan.com' => [ExplorerType::BSCSCAN, EvmExplorer::class],
+            'polygonscan.com' => [ExplorerType::POLYGONSCAN, EvmExplorer::class],
+            'tronscan.org' => [ExplorerType::TRONSCAN, TronExplorer::class],
+        ];
     }
 }
