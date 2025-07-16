@@ -7,6 +7,7 @@ use Mitoop\Crypto\Contracts\TokenInterface;
 use Mitoop\Crypto\Contracts\Tron\TronCoinInterface;
 use Mitoop\Crypto\Contracts\Tron\TronTokenInterface;
 use Mitoop\Crypto\Exceptions\InvalidArgumentException;
+use Mitoop\Crypto\Explorers\ExplorerBuilder;
 
 class Factory
 {
@@ -63,6 +64,11 @@ class Factory
             throw new InvalidArgumentException("Class $class does not exist");
         }
 
-        return new $class($config);
+        /** @var CoinInterface|TokenInterface $instance */
+        $instance = new $class($config);
+
+        $instance->setExplorers(ExplorerBuilder::build($config['explorer_url']));
+
+        return $instance;
     }
 }

@@ -265,16 +265,6 @@ class ChainContext extends AbstractChainContext implements TronChainContextInter
         return $response;
     }
 
-    public function getExplorerAddressUrl(string $address): string
-    {
-        return sprintf('%s/#/address/%s', $this->getExplorerUrl(), $address);
-    }
-
-    public function getExplorerTransactionUrl(string $txId): string
-    {
-        return sprintf('%s/#/transaction/%s', $this->getExplorerUrl(), $txId);
-    }
-
     protected function newResponse($response): TronResponse
     {
         return new TronResponse($response);
