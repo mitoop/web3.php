@@ -55,6 +55,19 @@ class TokenBuilder
         return $this->make($config);
     }
 
+    /**
+     * @param array{
+     *       chain: string,
+     *       chain_id: int,
+     *       contract_address: string,
+     *       decimals: int,
+     *       rpc_url: string,
+     *       rpc_timeout: ?int,
+     *       rpc_api_key: string,
+     *       explorer_url: string|array,
+     *       explorer_map: ?array
+     *   } $config Configuration for initializing the token instance.
+     */
     public static function fromArray(array $config): static
     {
         return (new static)
