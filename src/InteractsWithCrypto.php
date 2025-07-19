@@ -88,7 +88,7 @@ trait InteractsWithCrypto
         return $this;
     }
 
-    public function setExplorerMap(array $explorerMap): static
+    public function setExplorerMap(?array $explorerMap): static
     {
         $this->explorerMap = $explorerMap;
 
