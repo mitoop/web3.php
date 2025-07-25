@@ -84,6 +84,6 @@ class TokenBuilder
 
     protected function requiredFields(): array
     {
-        return ['chain', 'chain_id', 'contract_address', 'decimals', 'rpc_url', 'rpc_api_key', 'explorer_url'];
+        return ['chain', 'chain_id', 'contract_address', 'decimals', 'rpc_url', 'explorer_url'];
     }
 }

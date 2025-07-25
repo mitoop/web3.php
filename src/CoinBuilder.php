@@ -60,6 +60,6 @@ class CoinBuilder
 
     protected function requiredFields(): array
     {
-        return ['chain', 'chain_id', 'rpc_url', 'rpc_api_key', 'explorer_url'];
+        return ['chain', 'chain_id', 'rpc_url', 'explorer_url'];
     }
 }
