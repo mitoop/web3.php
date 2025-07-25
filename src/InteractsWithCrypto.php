@@ -17,7 +17,7 @@ trait InteractsWithCrypto
 
     protected ?int $rpcTimeout = null;
 
-    protected string $rpcApiKey;
+    protected ?string $rpcApiKey;
 
     protected string|array $explorerUrl;
 
@@ -74,7 +74,7 @@ trait InteractsWithCrypto
         return $this;
     }
 
-    public function setRpcApiKey(string $rpcApiKey): static
+    public function setRpcApiKey(?string $rpcApiKey): static
     {
         $this->rpcApiKey = $rpcApiKey;
 
