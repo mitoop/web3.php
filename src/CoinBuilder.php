@@ -41,7 +41,7 @@ class CoinBuilder
      *        chain_id: int,
      *        rpc_url: string,
      *        rpc_timeout: ?int,
-     *        rpc_api_key: string,
+     *        rpc_api_key: ?string,
      *        explorer_url: string|array,
      *        explorer_map: ?array
      *    } $config Configuration for initializing the coin instance.
