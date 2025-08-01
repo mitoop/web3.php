@@ -1,11 +1,6 @@
 {
     "name": "mitoop/crypto-php",
     "type": "library",
-    "autoload": {
-        "psr-4": {
-            "Mitoop\\Crypto\\": "src/"
-        }
-    },
     "authors": [
         {
             "name": "mitoop",
@@ -17,10 +12,15 @@
         "ext-bcmath": "*",
         "ext-ctype": "*",
         "ext-gmp": "*",
-        "simplito/elliptic-php": "^1.0",
-        "kornrunner/keccak": "^1.1",
         "guzzlehttp/guzzle": "^7.9",
         "kornrunner/ethereum-offline-raw-tx": "^0.8.0",
+        "kornrunner/keccak": "^1.1",
+        "simplito/elliptic-php": "^1.0",
         "stephenhill/base58": "^1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mitoop\\Crypto\\": "src/"
+        }
     }
 }
