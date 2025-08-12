@@ -153,6 +153,10 @@ class ChainContext extends AbstractChainContext implements TronChainContextInter
 
         $response = $this->rpcRequest('wallet/broadcasttransaction', $data);
 
+        if ($response->json('result') !== true) {
+            throw new RpcException(sprintf('%s:%s', $response->json('code'), $response->json('message')));
+        }
+
         return (string) $response->json('txid');
     }
 
