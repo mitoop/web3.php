@@ -7,6 +7,7 @@ use Mitoop\Crypto\Concerns\Tron\AddressFormatter;
 use Mitoop\Crypto\Concerns\Tron\Resource;
 use Mitoop\Crypto\Concerns\Tron\TransactionBuilder;
 use Mitoop\Crypto\Contracts\Tron\TronChainContextInterface;
+use Mitoop\Crypto\Exceptions\BroadcastException;
 use Mitoop\Crypto\Exceptions\RpcException;
 use Mitoop\Crypto\Support\Http\BizResponseInterface;
 use Mitoop\Crypto\Support\Http\HttpMethod;
@@ -146,6 +147,7 @@ class ChainContext extends AbstractChainContext implements TronChainContextInter
 
     /**
      * @throws RpcException
+     * @throws BroadcastException
      */
     protected function broadcast(array $data, #[SensitiveParameter] string $privateKey): string
     {
@@ -154,7 +156,7 @@ class ChainContext extends AbstractChainContext implements TronChainContextInter
         $response = $this->rpcRequest('wallet/broadcasttransaction', $data);
 
         if ($response->json('result') !== true) {
-            throw new RpcException(sprintf('%s:%s', $response->json('code'), $response->json('message')));
+            throw new BroadcastException(sprintf('%s:%s', $response->json('code'), $response->json('message')));
         }
 
         return (string) $response->json('txid');
