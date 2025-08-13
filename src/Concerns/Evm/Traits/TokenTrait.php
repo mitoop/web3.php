@@ -40,7 +40,7 @@ trait TokenTrait
 
     /**
      * @param  array{
-     *       latest_block_num?: string // 十六进制如 "0x2e2a650"
+     *       from_block?: string // 十六进制字符串如 "0x2e2a650"
      *   }  $params  查询参数
      *
      * @throws RpcException
@@ -52,7 +52,7 @@ trait TokenTrait
 
         $response = $this->rpcRequest('eth_getLogs', [
             [
-                'fromBlock' => $params['latest_block_num'] ?? '0x0',
+                'fromBlock' => $params['from_block'] ?? '0x0',
                 'toBlock' => 'latest',
                 'address' => $this->getContractAddress(),
                 'topics' => [$topic0, null, $topic2],
