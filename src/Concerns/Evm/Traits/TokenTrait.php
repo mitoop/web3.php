@@ -39,16 +39,20 @@ trait TokenTrait
     }
 
     /**
+     * @param  array{
+     *       latest_block_num?: string // 十六进制如 "0x2e2a650"
+     *   }  $params  查询参数
+     *
      * @throws RpcException
      */
-    public function getTransactions($address, array $params = []): array
+    public function getTransactions(string $address, array $params = []): array
     {
         $topic0 = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef';
         $topic2 = $this->toPaddedAddress($address, true);
 
         $response = $this->rpcRequest('eth_getLogs', [
             [
-                'fromBlock' => $params['latest_block_num'] ?? '0x0', // 十六进制如 "0x2e2a650"
+                'fromBlock' => $params['latest_block_num'] ?? '0x0',
                 'toBlock' => 'latest',
                 'address' => $this->getContractAddress(),
                 'topics' => [$topic0, null, $topic2],

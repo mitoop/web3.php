@@ -15,7 +15,7 @@ interface TokenInterface extends ChainContextInterface
 
     public function getBalance(string $address): string;
 
-    public function getTransactions($address, array $params = []): array;
+    public function getTransactions(string $address, array $params = []): array;
 
     public function getTransaction(string $txId): ?TransactionInfo;
 

@@ -36,12 +36,17 @@ class Token extends ChainContext implements TokenInterface
     }
 
     /**
+     * @param  array{
+     *      limit?: int,  // 默认 20 最大 200
+     *      min_timestamp?: int|string // 毫秒级，默认0
+     *  }  $params  查询参数
+     *
      * @throws RpcException
      */
-    public function getTransactions($address, array $params = []): array
+    public function getTransactions(string $address, array $params = []): array
     {
         $params = array_merge([
-            'limit' => 50,
+            'limit' => 20,
             'min_timestamp' => 0,
         ], $params);
 
@@ -49,7 +54,7 @@ class Token extends ChainContext implements TokenInterface
             'only_confirmed' => true,
             'only_to' => true,
             'limit' => $params['limit'],
-            'min_timestamp' => $params['min_timestamp'],
+            'min_timestamp' => (string) $params['min_timestamp'],
             'contract_address' => $this->getContractAddress(),
         ], HttpMethod::GET);
 
