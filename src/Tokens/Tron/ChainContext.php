@@ -58,6 +58,7 @@ class ChainContext extends AbstractChainContext implements TronChainContextInter
 
     /**
      * @throws RpcException
+     * @throws BroadcastException
      */
     public function stake(
         string $address,
@@ -79,6 +80,7 @@ class ChainContext extends AbstractChainContext implements TronChainContextInter
 
     /**
      * @throws RpcException
+     * @throws BroadcastException
      */
     public function unStake(
         string $address,
@@ -100,6 +102,7 @@ class ChainContext extends AbstractChainContext implements TronChainContextInter
 
     /**
      * @throws RpcException
+     * @throws BroadcastException
      */
     public function delegate(
         string $from,
@@ -124,6 +127,7 @@ class ChainContext extends AbstractChainContext implements TronChainContextInter
 
     /**
      * @throws RpcException
+     * @throws BroadcastException
      */
     public function unDelegate(
         string $from,

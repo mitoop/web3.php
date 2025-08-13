@@ -6,6 +6,7 @@ use Mitoop\Crypto\Concerns\HasTokenProperties;
 use Mitoop\Crypto\Concerns\Tron\TransactionBuilder;
 use Mitoop\Crypto\Contracts\TokenInterface;
 use Mitoop\Crypto\Exceptions\BalanceShortageException;
+use Mitoop\Crypto\Exceptions\BroadcastException;
 use Mitoop\Crypto\Exceptions\GasShortageException;
 use Mitoop\Crypto\Exceptions\RpcException;
 use Mitoop\Crypto\Exceptions\TransactionExecutionFailedException;
@@ -149,6 +150,7 @@ class Token extends ChainContext implements TokenInterface
      * @throws BalanceShortageException
      * @throws RpcException
      * @throws GasShortageException
+     * @throws BroadcastException
      */
     public function transfer(
         string $fromAddress,

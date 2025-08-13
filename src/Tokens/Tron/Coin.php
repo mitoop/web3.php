@@ -4,6 +4,7 @@ namespace Mitoop\Crypto\Tokens\Tron;
 
 use Mitoop\Crypto\Contracts\CoinInterface;
 use Mitoop\Crypto\Exceptions\BalanceShortageException;
+use Mitoop\Crypto\Exceptions\BroadcastException;
 use Mitoop\Crypto\Exceptions\RpcException;
 use Mitoop\Crypto\Exceptions\TransactionExecutionFailedException;
 use Mitoop\Crypto\Support\UnitFormatter;
@@ -108,6 +109,7 @@ class Coin extends ChainContext implements CoinInterface
     /**
      * @throws RpcException
      * @throws BalanceShortageException
+     * @throws BroadcastException
      */
     public function transfer(
         string $fromAddress,
