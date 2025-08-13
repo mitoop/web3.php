@@ -50,6 +50,7 @@ $coin->getBalance();
 - **Binance Smart Chain:** `0x3C99992DAa67403A03ba18AD2f36e344cE0A6Bfa`
 - **Polygon:** `0x3C99992DAa67403A03ba18AD2f36e344cE0A6Bfa`
 - **Tron:** `TSB2wHyR9XbBSypkj2CrbRzAwVkXaNrjNJ`
+- **Solana:** `Hwpo37icHRirLfNR7LN6fopkzsTHt91wfzF1iHK3wz44`
 
 ## 声明
 本项目为开源的产品，仅用于学习交流使用！       
