@@ -100,7 +100,8 @@ trait TokenTrait
             return null;
         }
 
-        $amount = 0;
+        $value = '';
+        $amount = '';
         $from = $response->json('result.from');
         $to = '';
         $logs = $response->json('result.logs', []);
@@ -113,7 +114,8 @@ trait TokenTrait
                 &&
                 ! $log['removed']
             ) {
-                $amount = UnitFormatter::formatUnits($log['data'] ?? '0x0', $this->getDecimals());
+                $value = (string) $log['data'];
+                $amount = UnitFormatter::formatUnits($value, $this->getDecimals());
                 $to = $this->toAddressFormat($log['topics'][2]);
             }
         }
@@ -131,6 +133,7 @@ trait TokenTrait
             (string) $response->json('result.transactionHash'),
             (string) $from,
             $to,
+            $value,
             $amount,
             $fee,
         );

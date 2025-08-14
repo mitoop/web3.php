@@ -101,7 +101,8 @@ class Token extends ChainContext implements TokenInterface
 
         $from = '';
         $to = '';
-        $value = 0;
+        $value = '';
+        $amount = '';
         foreach ($logs as $log) {
             if (! empty($log['topics'][0])
                 &&
@@ -109,7 +110,8 @@ class Token extends ChainContext implements TokenInterface
                 &&
                 strtolower($log['address']) === strtolower($this->toHexAddress($this->getContractAddress(), true))
             ) {
-                $value = UnitFormatter::formatUnits('0x'.$log['data'], $this->getDecimals());
+                $value = '0x'.$log['data'];
+                $amount = UnitFormatter::formatUnits($value, $this->getDecimals());
                 $from = $this->toAddressFormat($log['topics'][1]);
                 $to = $this->toAddressFormat($log['topics'][2]);
                 break;
@@ -122,6 +124,7 @@ class Token extends ChainContext implements TokenInterface
             $from,
             $to,
             $value,
+            $amount,
             UnitFormatter::formatUnits($response->json('fee'), $this->getNativeCoinDecimals()),
         );
     }

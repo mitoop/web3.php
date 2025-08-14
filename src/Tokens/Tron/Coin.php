@@ -76,12 +76,15 @@ class Coin extends ChainContext implements CoinInterface
             return null;
         }
 
+        $value = (string) $response->json('raw_data.contract.0.parameter.value.amount');
+
         return new TransactionInfo(
             true,
             (string) $response->json('txID'),
             (string) $response->json('raw_data.contract.0.parameter.value.owner_address'),
             (string) $response->json('raw_data.contract.0.parameter.value.to_address'),
-            UnitFormatter::formatUnits((string) $response->json('raw_data.contract.0.parameter.value.amount'), $this->getDecimals()),
+            $value,
+            UnitFormatter::formatUnits($value, $this->getDecimals()),
             $fee,
         );
     }

@@ -68,13 +68,15 @@ trait CoinTrait
             $txId,
         ]);
 
-        $amount = UnitFormatter::formatUnits($response->json('result.value'), $this->getDecimals());
+        $value = (string) $response->json('result.value');
+        $amount = UnitFormatter::formatUnits($value, $this->getDecimals());
 
         return new TransactionInfo(
             true,
             (string) $hash,
             (string) $from,
             (string) $to,
+            $value,
             $amount,
             $fee,
         );
