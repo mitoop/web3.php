@@ -58,11 +58,7 @@ class Coin extends ChainContext implements CoinInterface
         }
 
         if ($response->json('result') === 'FAILED') {
-            throw new TransactionExecutionFailedException(hex2bin($response->json('resMessage')));
-        }
-
-        if (is_null($response->json('blockNumber'))) {
-            return null;
+            throw TransactionExecutionFailedException::fromResMessage($response->json('resMessage'));
         }
 
         $fee = UnitFormatter::formatUnits($response->json('fee'), $this->getDecimals());
@@ -73,6 +69,10 @@ class Coin extends ChainContext implements CoinInterface
         ]);
 
         if (empty($response->json())) {
+            return null;
+        }
+
+        if ($response->json('ret.0.contractRet') !== 'SUCCESS') {
             return null;
         }
 

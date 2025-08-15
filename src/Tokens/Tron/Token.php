@@ -90,7 +90,7 @@ class Token extends ChainContext implements TokenInterface
         }
 
         if ($response->json('result') === 'FAILED') {
-            throw new TransactionExecutionFailedException(hex2bin($response->json('resMessage')));
+            throw TransactionExecutionFailedException::fromResMessage($response->json('resMessage'));
         }
 
         if ($response->json('receipt.result') !== 'SUCCESS') {

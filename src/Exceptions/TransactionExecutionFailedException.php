@@ -2,4 +2,10 @@
 
 namespace Mitoop\Crypto\Exceptions;
 
-class TransactionExecutionFailedException extends CryptoException {}
+class TransactionExecutionFailedException extends CryptoException
+{
+    public static function fromResMessage(?string $resMessage): self
+    {
+        return new self($resMessage ? hex2bin($resMessage) : 'Transaction execution failed');
+    }
+}
