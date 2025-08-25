@@ -58,16 +58,16 @@ trait EvmLikeChain
     /**
      * @throws RpcException
      */
-    public function getBaseFeePerGas(): array
+    public function getBaseFeePerGas(int $rewardPercentile = 50): array
     {
         $response = $this->rpcRequest('eth_feeHistory', [
             1,
             'latest',
-            [50],
+            [$rewardPercentile],
         ]);
 
         // 🌰 ["0xc5f55767", "0x3b9aca00"]
-        return [$response->json('result.baseFeePerGas.0'), $response->json('result.reward.0.0')];
+        return [$response->json('result.baseFeePerGas.1'), $response->json('result.reward.0.0')];
     }
 
     /**
