@@ -31,6 +31,14 @@ trait EvmLikeToken
     /**
      * @throws RpcException
      */
+    protected function getNonce(string $address): string
+    {
+        return gmp_strval(gmp_init($this->getTransactionCount($address), 10), 16);
+    }
+
+    /**
+     * @throws RpcException
+     */
     protected function getGasPrice(): string
     {
         $response = $this->rpcRequest('eth_gasPrice');

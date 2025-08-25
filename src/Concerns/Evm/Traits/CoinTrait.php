@@ -107,7 +107,7 @@ trait CoinTrait
 
         [$gasPrice, $gasLimit] = $this->computeGas($this->estimateGas($fromAddress, $toAddress), $balance, $amount);
 
-        $nonce = gmp_strval(gmp_init($this->getTransactionCount($fromAddress), 10), 16);
+        $nonce = $this->getNonce($fromAddress);
         $amount = gmp_strval(gmp_init($amount, 10), 16);
 
         if (! $this->supportsEIP1559Transaction()) {

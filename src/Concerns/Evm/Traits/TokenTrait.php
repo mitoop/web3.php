@@ -176,7 +176,7 @@ trait TokenTrait
             $this->getNativeCoin()->getBalance($fromAddress),
         );
 
-        $nonce = gmp_strval(gmp_init($this->getTransactionCount($fromAddress), 10), 16);
+        $nonce = $this->getNonce($fromAddress);
 
         if (! $this->supportsEIP1559Transaction()) {
             return $this->createLegacyTransaction($fromPrivateKey, $nonce, $gasPrice, $gasLimit, $this->getContractAddress(), data: $data);
