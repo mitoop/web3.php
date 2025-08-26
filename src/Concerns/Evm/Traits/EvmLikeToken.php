@@ -116,12 +116,16 @@ trait EvmLikeToken
             $value
         );
 
+        if ($value !== '') {
+            $value = '0x'.gmp_strval(gmp_init($value, 10), 16);
+        }
+
         $transaction = new LegacyTransaction(
             $this->getNonce($fromAddress),
             $gasPrice,
             $gasLimit,
             $toAddress,
-            $value === '' ? '' : gmp_strval(gmp_init($value, 10), 16),
+            $value,
             $data
         );
 
