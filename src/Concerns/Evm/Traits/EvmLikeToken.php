@@ -165,8 +165,8 @@ trait EvmLikeToken
         $gasLimit = $this->estimateGas($fromAddress, $toAddress, $value, $data);
         $gasLimitHex = '0x'.gmp_strval(gmp_init($gasLimit, 10), 16);
 
-        $txValue = ($value === '' ? '0' : $value);
-        $maxCost = bcadd($txValue, bcmul($gasLimit, $totalFeeWei, 0), 0);
+        $amount = ($value === '' ? '0' : $value);
+        $maxCost = bcadd($amount, bcmul($gasLimit, $totalFeeWei, 0), 0);
         if (bccomp($nativeBalance, $maxCost, 0) < 0) {
             throw new GasShortageException($nativeBalance, $maxCost);
         }
