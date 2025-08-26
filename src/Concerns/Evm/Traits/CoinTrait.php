@@ -94,14 +94,14 @@ trait CoinTrait
         string $toAddress,
         string $amount
     ): string {
-        if (bccomp($amount, 0, 0) <= 0) {
+        if (bccomp($amount, 0, $this->getDecimals()) <= 0) {
             throw new InvalidArgumentException('Invalid amount');
         }
 
         $balance = $this->getBalance($fromAddress);
         $amount = bcmul($amount, bcpow(10, $this->getDecimals(), 0), 0);
 
-        if (bccomp($balance, $amount, 0) <= 0) {
+        if (bccomp($balance, $amount, $this->getDecimals()) <= 0) {
             throw new BalanceShortageException(sprintf('balance: %s, amount: %s', $balance, $amount));
         }
 
