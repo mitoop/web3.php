@@ -225,9 +225,9 @@ class Token extends ChainContext implements TokenInterface
         $totalSun = bcadd($burnEnergySun, $burnBandwidthSun);
         $fee = bcdiv($totalSun, bcpow('10', (string) $this->getNativeCoinDecimals(), 0), 6);
 
-        if (bccomp($fee, '0', 6) > 0) {
+        if (bccomp($fee, '0', $this->getNativeCoinDecimals()) > 0) {
             $nativeCoinBalance = $this->getNativeCoin()->getBalance($fromAddress, true);
-            if (bccomp($nativeCoinBalance, $fee, 6) < 0) {
+            if (bccomp($nativeCoinBalance, $fee, $this->getNativeCoinDecimals()) < 0) {
                 throw new GasShortageException($nativeCoinBalance, $fee);
             }
         }

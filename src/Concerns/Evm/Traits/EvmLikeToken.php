@@ -87,7 +87,7 @@ trait EvmLikeToken
         $fee = bcmul(bcmul($gasPrice, $estimatedGas, 0), $this->getFeeBuffer(), 0);
         $totalCost = bcadd($amount, $fee, 0);
 
-        if (bccomp($nativeBalance, $totalCost, 0) < 0) {
+        if (bccomp($nativeBalance, $totalCost, $this->getNativeCoinDecimals()) < 0) {
             throw new GasShortageException($nativeBalance, $totalCost);
         }
 
@@ -167,7 +167,7 @@ trait EvmLikeToken
 
         $amount = ($value === '' ? '0' : $value);
         $maxCost = bcadd($amount, bcmul($gasLimit, $totalFeeWei, 0), 0);
-        if (bccomp($nativeBalance, $maxCost, 0) < 0) {
+        if (bccomp($nativeBalance, $maxCost, $this->getNativeCoinDecimals()) < 0) {
             throw new GasShortageException($nativeBalance, $maxCost);
         }
 
