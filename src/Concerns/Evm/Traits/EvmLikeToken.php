@@ -153,35 +153,35 @@ trait EvmLikeToken
 
         $baseFeeWei = gmp_strval(gmp_init($baseFeePerGasHex, 16));
         $priorityFeeWei = gmp_strval(gmp_init($maxPriorityFeePerGasHex, 16));
-
         if (bccomp($priorityFeeWei, '0', 0) <= 0) {
             $priorityFeeWei = '25000000000';
         }
 
-        $totalFeeWei = bcadd($baseFeeWei, $priorityFeeWei, 0);
-        $totalFeeWei = bcmul($totalFeeWei, $this->getFeeBuffer(), 0);
+        $totalFeeWei = bcmul(bcadd($baseFeeWei, $priorityFeeWei, 0), $this->getFeeBuffer(), 0);
 
-        $maxFeePerGasDec = $totalFeeWei;
         $maxFeePerGasHex = '0x'.gmp_strval(gmp_init($totalFeeWei, 10), 16);
         $maxPriorityFeePerGasHex = '0x'.gmp_strval(gmp_init($priorityFeeWei, 10), 16);
 
         $gasLimit = $this->estimateGas($fromAddress, $toAddress, $value, $data);
+        $gasLimitHex = '0x'.gmp_strval(gmp_init($gasLimit, 10), 16);
 
         $txValue = ($value === '' ? '0' : $value);
-        $maxCost = bcadd($txValue, bcmul($gasLimit, $maxFeePerGasDec, 0), 0);
+        $maxCost = bcadd($txValue, bcmul($gasLimit, $totalFeeWei, 0), 0);
         if (bccomp($balance, $maxCost, 0) < 0) {
             throw new GasShortageException($balance, $maxCost);
         }
 
-        $valueHex = ($txValue === '0') ? '' : '0x'.gmp_strval(gmp_init($txValue, 10), 16);
+        if ($value !== '') {
+            $value = '0x'.gmp_strval(gmp_init($value, 10), 16);
+        }
 
         $transaction = new EIP1559Transaction(
             $this->getNonce($fromAddress),
             $maxPriorityFeePerGasHex,
             $maxFeePerGasHex,
-            $gasLimit,
+            $gasLimitHex,
             $toAddress,
-            $valueHex,
+            $value,
             $data
         );
 
