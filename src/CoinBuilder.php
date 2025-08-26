@@ -1,10 +1,10 @@
 <?php
 
-namespace Mitoop\Crypto;
+namespace Mitoop\Web3;
 
-use Mitoop\Crypto\Contracts\CoinInterface;
-use Mitoop\Crypto\Contracts\Tron\TronCoinInterface;
-use Mitoop\Crypto\Exceptions\InvalidArgumentException;
+use Mitoop\Web3\Contracts\CoinInterface;
+use Mitoop\Web3\Contracts\Tron\TronCoinInterface;
+use Mitoop\Web3\Exceptions\InvalidArgumentException;
 
 class CoinBuilder
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Mitoop\Crypto\Explorers;
+namespace Mitoop\Web3\Explorers;
 
-use Mitoop\Crypto\Exceptions\InvalidArgumentException;
+use Mitoop\Web3\Exceptions\InvalidArgumentException;
 
 class ExplorerBuilder
 {

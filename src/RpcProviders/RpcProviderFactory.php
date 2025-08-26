@@ -1,6 +1,6 @@
 <?php
 
-namespace Mitoop\Crypto\RpcProviders;
+namespace Mitoop\Web3\RpcProviders;
 
 class RpcProviderFactory
 {

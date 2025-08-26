@@ -1,6 +1,6 @@
 <?php
 
-namespace Mitoop\Crypto\Concerns\Tron;
+namespace Mitoop\Web3\Concerns\Tron;
 
 use StephenHill\Base58;
 

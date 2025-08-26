@@ -1,6 +1,6 @@
 <?php
 
-namespace Mitoop\Crypto\Support;
+namespace Mitoop\Web3\Support;
 
 enum Chain: string
 {

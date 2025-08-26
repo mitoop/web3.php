@@ -1,9 +1,9 @@
 <?php
 
-namespace Mitoop\Crypto\Concerns;
+namespace Mitoop\Web3\Concerns;
 
-use Mitoop\Crypto\CoinBuilder;
-use Mitoop\Crypto\Contracts\CoinInterface;
+use Mitoop\Web3\CoinBuilder;
+use Mitoop\Web3\Contracts\CoinInterface;
 
 trait HasTokenProperties
 {

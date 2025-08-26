@@ -1,17 +1,17 @@
 <?php
 
-namespace Mitoop\Crypto\Tokens\Tron;
+namespace Mitoop\Web3\Tokens\Tron;
 
-use Mitoop\Crypto\Concerns\AbstractChainContext;
-use Mitoop\Crypto\Concerns\Tron\AddressFormatter;
-use Mitoop\Crypto\Concerns\Tron\Resource;
-use Mitoop\Crypto\Concerns\Tron\TransactionBuilder;
-use Mitoop\Crypto\Contracts\Tron\TronChainContextInterface;
-use Mitoop\Crypto\Exceptions\BroadcastException;
-use Mitoop\Crypto\Exceptions\RpcException;
-use Mitoop\Crypto\Support\Http\BizResponseInterface;
-use Mitoop\Crypto\Support\Http\HttpMethod;
-use Mitoop\Crypto\Support\Http\TronResponse;
+use Mitoop\Web3\Concerns\AbstractChainContext;
+use Mitoop\Web3\Concerns\Tron\AddressFormatter;
+use Mitoop\Web3\Concerns\Tron\Resource;
+use Mitoop\Web3\Concerns\Tron\TransactionBuilder;
+use Mitoop\Web3\Contracts\Tron\TronChainContextInterface;
+use Mitoop\Web3\Exceptions\BroadcastException;
+use Mitoop\Web3\Exceptions\RpcException;
+use Mitoop\Web3\Support\Http\BizResponseInterface;
+use Mitoop\Web3\Support\Http\HttpMethod;
+use Mitoop\Web3\Support\Http\TronResponse;
 use SensitiveParameter;
 
 class ChainContext extends AbstractChainContext implements TronChainContextInterface

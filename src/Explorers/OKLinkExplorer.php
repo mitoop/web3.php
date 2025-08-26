@@ -1,8 +1,8 @@
 <?php
 
-namespace Mitoop\Crypto\Explorers;
+namespace Mitoop\Web3\Explorers;
 
-use Mitoop\Crypto\Support\Chain;
+use Mitoop\Web3\Support\Chain;
 
 class OKLinkExplorer extends BaseExplorer
 {

@@ -1,16 +1,16 @@
 <?php
 
-namespace Mitoop\Crypto\Concerns\Evm\Traits;
+namespace Mitoop\Web3\Concerns\Evm\Traits;
 
-use Mitoop\Crypto\Concerns\Evm\Transactions\TransactionBuilder;
-use Mitoop\Crypto\Concerns\HasTokenProperties;
-use Mitoop\Crypto\Exceptions\BalanceShortageException;
-use Mitoop\Crypto\Exceptions\GasShortageException;
-use Mitoop\Crypto\Exceptions\InvalidArgumentException;
-use Mitoop\Crypto\Exceptions\RpcException;
-use Mitoop\Crypto\Support\UnitFormatter;
-use Mitoop\Crypto\Transactions\Transaction;
-use Mitoop\Crypto\Transactions\TransactionInfo;
+use Mitoop\Web3\Concerns\Evm\Transactions\TransactionBuilder;
+use Mitoop\Web3\Concerns\HasTokenProperties;
+use Mitoop\Web3\Exceptions\BalanceShortageException;
+use Mitoop\Web3\Exceptions\GasShortageException;
+use Mitoop\Web3\Exceptions\InvalidArgumentException;
+use Mitoop\Web3\Exceptions\RpcException;
+use Mitoop\Web3\Support\UnitFormatter;
+use Mitoop\Web3\Transactions\Transaction;
+use Mitoop\Web3\Transactions\TransactionInfo;
 use SensitiveParameter;
 
 trait TokenTrait

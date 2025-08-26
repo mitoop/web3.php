@@ -1,5 +1,5 @@
 <?php
 
-namespace Mitoop\Crypto\Exceptions;
+namespace Mitoop\Web3\Exceptions;
 
 class RpcException extends CryptoException {}

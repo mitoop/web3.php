@@ -1,6 +1,6 @@
 <?php
 
-namespace Mitoop\Crypto\Support\Http;
+namespace Mitoop\Web3\Support\Http;
 
 enum HttpMethod: string
 {

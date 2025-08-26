@@ -1,9 +1,9 @@
 <?php
 
-namespace Mitoop\Crypto\Tokens\Eth;
+namespace Mitoop\Web3\Tokens\Eth;
 
-use Mitoop\Crypto\Concerns\Evm\Traits\TokenTrait;
-use Mitoop\Crypto\Contracts\TokenInterface;
+use Mitoop\Web3\Concerns\Evm\Traits\TokenTrait;
+use Mitoop\Web3\Contracts\TokenInterface;
 
 class Token extends ChainContext implements TokenInterface
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace Mitoop\Crypto;
+namespace Mitoop\Web3;
 
-use Mitoop\Crypto\Contracts\CoinInterface;
-use Mitoop\Crypto\Contracts\TokenInterface;
-use Mitoop\Crypto\Exceptions\InvalidArgumentException;
-use Mitoop\Crypto\Explorers\ExplorerBuilder;
+use Mitoop\Web3\Contracts\CoinInterface;
+use Mitoop\Web3\Contracts\TokenInterface;
+use Mitoop\Web3\Exceptions\InvalidArgumentException;
+use Mitoop\Web3\Explorers\ExplorerBuilder;
 
 trait InteractsWithCrypto
 {

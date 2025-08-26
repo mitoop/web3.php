@@ -1,10 +1,10 @@
 <?php
 
-namespace Mitoop\Crypto;
+namespace Mitoop\Web3;
 
-use Mitoop\Crypto\Contracts\TokenInterface;
-use Mitoop\Crypto\Contracts\Tron\TronTokenInterface;
-use Mitoop\Crypto\Exceptions\InvalidArgumentException;
+use Mitoop\Web3\Contracts\TokenInterface;
+use Mitoop\Web3\Contracts\Tron\TronTokenInterface;
+use Mitoop\Web3\Exceptions\InvalidArgumentException;
 
 class TokenBuilder
 {

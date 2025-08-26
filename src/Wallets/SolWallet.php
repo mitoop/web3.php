@@ -1,6 +1,6 @@
 <?php
 
-namespace Mitoop\Crypto\Wallets;
+namespace Mitoop\Web3\Wallets;
 
 use SodiumException;
 use StephenHill\Base58;

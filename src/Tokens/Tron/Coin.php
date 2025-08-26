@@ -1,14 +1,14 @@
 <?php
 
-namespace Mitoop\Crypto\Tokens\Tron;
+namespace Mitoop\Web3\Tokens\Tron;
 
-use Mitoop\Crypto\Contracts\CoinInterface;
-use Mitoop\Crypto\Exceptions\BalanceShortageException;
-use Mitoop\Crypto\Exceptions\BroadcastException;
-use Mitoop\Crypto\Exceptions\RpcException;
-use Mitoop\Crypto\Exceptions\TransactionExecutionFailedException;
-use Mitoop\Crypto\Support\UnitFormatter;
-use Mitoop\Crypto\Transactions\TransactionInfo;
+use Mitoop\Web3\Contracts\CoinInterface;
+use Mitoop\Web3\Exceptions\BalanceShortageException;
+use Mitoop\Web3\Exceptions\BroadcastException;
+use Mitoop\Web3\Exceptions\RpcException;
+use Mitoop\Web3\Exceptions\TransactionExecutionFailedException;
+use Mitoop\Web3\Support\UnitFormatter;
+use Mitoop\Web3\Transactions\TransactionInfo;
 use SensitiveParameter;
 
 class Coin extends ChainContext implements CoinInterface

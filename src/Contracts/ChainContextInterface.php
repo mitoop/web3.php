@@ -1,11 +1,11 @@
 <?php
 
-namespace Mitoop\Crypto\Contracts;
+namespace Mitoop\Web3\Contracts;
 
-use Mitoop\Crypto\Explorers\ExplorerType;
-use Mitoop\Crypto\Support\Http\BizResponseInterface;
-use Mitoop\Crypto\Support\Http\HttpMethod;
-use Mitoop\Crypto\Wallets\Wallet;
+use Mitoop\Web3\Explorers\ExplorerType;
+use Mitoop\Web3\Support\Http\BizResponseInterface;
+use Mitoop\Web3\Support\Http\HttpMethod;
+use Mitoop\Web3\Wallets\Wallet;
 
 interface ChainContextInterface
 {

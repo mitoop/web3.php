@@ -1,8 +1,8 @@
 <?php
 
-namespace Mitoop\Crypto\Contracts;
+namespace Mitoop\Web3\Contracts;
 
-use Mitoop\Crypto\Transactions\TransactionInfo;
+use Mitoop\Web3\Transactions\TransactionInfo;
 use SensitiveParameter;
 
 interface CoinInterface

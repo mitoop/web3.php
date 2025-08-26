@@ -1,5 +1,5 @@
 <?php
 
-namespace Mitoop\Crypto\Exceptions;
+namespace Mitoop\Web3\Exceptions;
 
 class BalanceShortageException extends CryptoException {}

@@ -1,6 +1,6 @@
-# Crypto
+# web3.php
 
-Crypto 致力于为 PHP 开发者打造统一且高效的区块链接口，助力快速接入多链生态，实现跨链资产与协议的无缝集成。支持包括以太坊（ERC-20）、币安智能链（BEP-20）、Polygon 以及波场（TRC-20）等主流公链，同时全面覆盖各链原生代币（ETH、BNB、POL、TRX），为现代分布式应用提供坚实底座。
+**web3.php** 致力于为 PHP 开发者打造统一且高效的区块链接口，助力快速接入多链生态，实现跨链资产与协议的无缝集成。支持包括以太坊（ERC-20）、币安智能链（BEP-20）、Polygon 以及波场（TRC-20）等主流公链，同时全面覆盖各链原生代币（ETH、BNB、POL、TRX），为现代分布式应用提供坚实底座。
 
 ## 主要功能
 
@@ -13,13 +13,13 @@ Crypto 致力于为 PHP 开发者打造统一且高效的区块链接口，助�
 ## 安装
 
 ```bash
-composer require mitoop/crypto-php
+composer require mitoop/web3.php
 ```
 
 ## 快速开始
 
 ```php
-use Mitoop\Crypto\TokenBuilder;
+use Mitoop\Web3\TokenBuilder;
 
 // 获取代币实例
 $token = TokenBuilder::fromArray([

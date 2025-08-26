@@ -1,11 +1,11 @@
 <?php
 
-namespace Mitoop\Crypto\Concerns\Evm\Traits;
+namespace Mitoop\Web3\Concerns\Evm\Traits;
 
-use Mitoop\Crypto\Exceptions\RpcException;
-use Mitoop\Crypto\Support\Http\BizResponseInterface;
-use Mitoop\Crypto\Support\Http\EvmResponse;
-use Mitoop\Crypto\Support\Http\HttpMethod;
+use Mitoop\Web3\Exceptions\RpcException;
+use Mitoop\Web3\Support\Http\BizResponseInterface;
+use Mitoop\Web3\Support\Http\EvmResponse;
+use Mitoop\Web3\Support\Http\HttpMethod;
 
 trait EvmLikeChain
 {

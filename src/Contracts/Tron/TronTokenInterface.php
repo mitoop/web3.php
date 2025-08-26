@@ -1,7 +1,7 @@
 <?php
 
-namespace Mitoop\Crypto\Contracts\Tron;
+namespace Mitoop\Web3\Contracts\Tron;
 
-use Mitoop\Crypto\Contracts\TokenInterface;
+use Mitoop\Web3\Contracts\TokenInterface;
 
 interface TronTokenInterface extends TokenInterface, TronChainContextInterface {}

@@ -1,6 +1,6 @@
 <?php
 
-namespace Mitoop\Crypto\Wallets;
+namespace Mitoop\Web3\Wallets;
 
 use Elliptic\EC;
 use kornrunner\Keccak;

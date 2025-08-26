@@ -1,5 +1,5 @@
 {
-    "name": "mitoop/crypto-php",
+    "name": "mitoop/web3.php",
     "type": "library",
     "authors": [
         {
@@ -20,7 +20,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Mitoop\\Crypto\\": "src/"
+            "Mitoop\\Web3\\": "src/"
         }
     }
 }

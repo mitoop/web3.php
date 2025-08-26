@@ -1,19 +1,19 @@
 <?php
 
-namespace Mitoop\Crypto\Tokens\Tron;
+namespace Mitoop\Web3\Tokens\Tron;
 
-use Mitoop\Crypto\Concerns\HasTokenProperties;
-use Mitoop\Crypto\Concerns\Tron\TransactionBuilder;
-use Mitoop\Crypto\Contracts\TokenInterface;
-use Mitoop\Crypto\Exceptions\BalanceShortageException;
-use Mitoop\Crypto\Exceptions\BroadcastException;
-use Mitoop\Crypto\Exceptions\GasShortageException;
-use Mitoop\Crypto\Exceptions\RpcException;
-use Mitoop\Crypto\Exceptions\TransactionExecutionFailedException;
-use Mitoop\Crypto\Support\Http\HttpMethod;
-use Mitoop\Crypto\Support\UnitFormatter;
-use Mitoop\Crypto\Transactions\Transaction;
-use Mitoop\Crypto\Transactions\TransactionInfo;
+use Mitoop\Web3\Concerns\HasTokenProperties;
+use Mitoop\Web3\Concerns\Tron\TransactionBuilder;
+use Mitoop\Web3\Contracts\TokenInterface;
+use Mitoop\Web3\Exceptions\BalanceShortageException;
+use Mitoop\Web3\Exceptions\BroadcastException;
+use Mitoop\Web3\Exceptions\GasShortageException;
+use Mitoop\Web3\Exceptions\RpcException;
+use Mitoop\Web3\Exceptions\TransactionExecutionFailedException;
+use Mitoop\Web3\Support\Http\HttpMethod;
+use Mitoop\Web3\Support\UnitFormatter;
+use Mitoop\Web3\Transactions\Transaction;
+use Mitoop\Web3\Transactions\TransactionInfo;
 use SensitiveParameter;
 
 class Token extends ChainContext implements TokenInterface

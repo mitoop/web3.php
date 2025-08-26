@@ -1,8 +1,8 @@
 <?php
 
-namespace Mitoop\Crypto\Wallets;
+namespace Mitoop\Web3\Wallets;
 
-use Mitoop\Crypto\Exceptions\InvalidArgumentException;
+use Mitoop\Web3\Exceptions\InvalidArgumentException;
 
 class Factory
 {

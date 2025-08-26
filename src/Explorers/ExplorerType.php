@@ -1,6 +1,6 @@
 <?php
 
-namespace Mitoop\Crypto\Explorers;
+namespace Mitoop\Web3\Explorers;
 
 enum ExplorerType: string
 {

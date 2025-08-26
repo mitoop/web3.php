@@ -1,11 +1,11 @@
 <?php
 
-namespace Mitoop\Crypto\Concerns\Evm\Traits;
+namespace Mitoop\Web3\Concerns\Evm\Traits;
 
-use Mitoop\Crypto\Concerns\Evm\Transactions\EIP1559Transaction;
-use Mitoop\Crypto\Concerns\Evm\Transactions\LegacyTransaction;
-use Mitoop\Crypto\Exceptions\GasShortageException;
-use Mitoop\Crypto\Exceptions\RpcException;
+use Mitoop\Web3\Concerns\Evm\Transactions\EIP1559Transaction;
+use Mitoop\Web3\Concerns\Evm\Transactions\LegacyTransaction;
+use Mitoop\Web3\Exceptions\GasShortageException;
+use Mitoop\Web3\Exceptions\RpcException;
 use SensitiveParameter;
 
 trait EvmLikeToken

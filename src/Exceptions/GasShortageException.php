@@ -1,6 +1,6 @@
 <?php
 
-namespace Mitoop\Crypto\Exceptions;
+namespace Mitoop\Web3\Exceptions;
 
 class GasShortageException extends CryptoException
 {

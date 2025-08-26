@@ -1,6 +1,6 @@
 <?php
 
-namespace Mitoop\Crypto\Concerns\Evm\Traits;
+namespace Mitoop\Web3\Concerns\Evm\Traits;
 
 trait AddressFormatter
 {

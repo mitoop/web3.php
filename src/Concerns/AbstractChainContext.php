@@ -1,17 +1,17 @@
 <?php
 
-namespace Mitoop\Crypto\Concerns;
+namespace Mitoop\Web3\Concerns;
 
-use Mitoop\Crypto\Contracts\ChainContextInterface;
-use Mitoop\Crypto\Exceptions\InvalidArgumentException;
-use Mitoop\Crypto\Explorers\ExplorerInterface;
-use Mitoop\Crypto\Explorers\ExplorerType;
-use Mitoop\Crypto\RpcProviders\RpcProviderFactory;
-use Mitoop\Crypto\Support\Http\BizResponseInterface;
-use Mitoop\Crypto\Support\Http\HttpRequestClient;
-use Mitoop\Crypto\Support\Http\Response;
-use Mitoop\Crypto\Wallets\Factory;
-use Mitoop\Crypto\Wallets\Wallet;
+use Mitoop\Web3\Contracts\ChainContextInterface;
+use Mitoop\Web3\Exceptions\InvalidArgumentException;
+use Mitoop\Web3\Explorers\ExplorerInterface;
+use Mitoop\Web3\Explorers\ExplorerType;
+use Mitoop\Web3\RpcProviders\RpcProviderFactory;
+use Mitoop\Web3\Support\Http\BizResponseInterface;
+use Mitoop\Web3\Support\Http\HttpRequestClient;
+use Mitoop\Web3\Support\Http\Response;
+use Mitoop\Web3\Wallets\Factory;
+use Mitoop\Web3\Wallets\Wallet;
 
 /**
  * @method BizResponseInterface|Response postJson($endpoint, $jsonData = [], $headers = [])

@@ -1,6 +1,6 @@
 <?php
 
-namespace Mitoop\Crypto\Concerns\Evm\Transactions;
+namespace Mitoop\Web3\Concerns\Evm\Transactions;
 
 use kornrunner\Ethereum\EIP1559Transaction as Transaction;
 

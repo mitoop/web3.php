@@ -1,9 +1,9 @@
 <?php
 
-namespace Mitoop\Crypto\Tokens\Polygon;
+namespace Mitoop\Web3\Tokens\Polygon;
 
-use Mitoop\Crypto\Concerns\AbstractChainContext;
-use Mitoop\Crypto\Concerns\Evm\Traits\EvmLikeChain;
+use Mitoop\Web3\Concerns\AbstractChainContext;
+use Mitoop\Web3\Concerns\Evm\Traits\EvmLikeChain;
 
 class ChainContext extends AbstractChainContext
 {

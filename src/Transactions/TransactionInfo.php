@@ -1,6 +1,6 @@
 <?php
 
-namespace Mitoop\Crypto\Transactions;
+namespace Mitoop\Web3\Transactions;
 
 class TransactionInfo
 {

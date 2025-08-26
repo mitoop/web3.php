@@ -1,9 +1,9 @@
 <?php
 
-namespace Mitoop\Crypto\Tokens\Bsc;
+namespace Mitoop\Web3\Tokens\Bsc;
 
-use Mitoop\Crypto\Concerns\Evm\Traits\CoinTrait;
-use Mitoop\Crypto\Contracts\CoinInterface;
+use Mitoop\Web3\Concerns\Evm\Traits\CoinTrait;
+use Mitoop\Web3\Contracts\CoinInterface;
 
 class Coin extends ChainContext implements CoinInterface
 {
