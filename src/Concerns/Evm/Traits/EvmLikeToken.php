@@ -99,6 +99,25 @@ trait EvmLikeToken
     }
 
     /**
+     * @throws GasShortageException
+     * @throws RpcException
+     */
+    protected function createTransaction(
+        string $fromAddress,
+        #[SensitiveParameter] string $fromPrivateKey,
+        string $toAddress,
+        string $nativeBalance,
+        string $value = '',
+        string $data = ''): string
+    {
+        if ($this->supportsEIP1559Transaction()) {
+            return $this->createEIP1559Transaction($fromAddress, $fromPrivateKey, $toAddress, $nativeBalance, $value, $data);
+        }
+
+        return $this->createLegacyTransaction($fromAddress, $fromPrivateKey, $toAddress, $nativeBalance, $value, $data);
+    }
+
+    /**
      * @throws RpcException
      * @throws GasShortageException
      */

@@ -105,22 +105,6 @@ trait CoinTrait
             throw new BalanceShortageException(sprintf('balance: %s, amount: %s', $balance, $amount));
         }
 
-        if (! $this->supportsEIP1559Transaction()) {
-            return $this->createLegacyTransaction(
-                $fromAddress,
-                $fromPrivateKey,
-                $toAddress,
-                $balance,
-                $amount
-            );
-        }
-
-        return $this->createEIP1559Transaction(
-            $fromAddress,
-            $fromPrivateKey,
-            $toAddress,
-            $balance,
-            $amount
-        );
+        return $this->createTransaction($fromAddress, $fromPrivateKey, $toAddress, $balance, $amount);
     }
 }

@@ -174,17 +174,7 @@ trait TokenTrait
         $data = (new TransactionBuilder)->encode($toAddress, $amount, $this->getDecimals());
         $nativeBalance = $this->getNativeCoin()->getBalance($fromAddress);
 
-        if (! $this->supportsEIP1559Transaction()) {
-            return $this->createLegacyTransaction(
-                $fromAddress,
-                $fromPrivateKey,
-                $this->getContractAddress(),
-                $nativeBalance,
-                data: $data
-            );
-        }
-
-        return $this->createEIP1559Transaction(
+        return $this->createTransaction(
             $fromAddress,
             $fromPrivateKey,
             $this->getContractAddress(),
