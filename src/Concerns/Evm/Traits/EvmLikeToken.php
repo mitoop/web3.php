@@ -93,17 +93,26 @@ trait EvmLikeToken
 
     /**
      * @throws RpcException
+     * @throws GasShortageException
      */
     protected function createLegacyTransaction(
+        string $fromAddress,
         #[SensitiveParameter] string $fromPrivateKey,
-        string $nonce,
-        string $gasPrice,
-        string $gasLimit,
-        string $to = '',
+        string $toAddress,
+        string $balance,
         string $value = '',
         string $data = ''): string
     {
-        $transaction = new LegacyTransaction($nonce, $gasPrice, $gasLimit, $to, $value, $data);
+        [$gasPrice, $gasLimit] = $this->computeGas($this->estimateGas($fromAddress, $toAddress), $balance, $value === '' ? '0' : $value);
+
+        $transaction = new LegacyTransaction(
+            $this->getNonce($fromAddress),
+            $gasPrice,
+            $gasLimit,
+            $toAddress,
+            $value === '' ? '' : gmp_strval(gmp_init($value, 10), 16),
+            $data
+        );
 
         $response = $this->rpcRequest('eth_sendRawTransaction', [
             $transaction->build($fromPrivateKey, $this->getChainId()),
@@ -115,12 +124,13 @@ trait EvmLikeToken
 
     /**
      * @throws RpcException
+     * @throws GasShortageException
      */
     protected function createEIP1559Transaction(
+        string $fromAddress,
         #[SensitiveParameter] string $fromPrivateKey,
-        string $nonce,
-        string $gasLimit,
-        string $to = '',
+        string $toAddress,
+        string $balance,
         string $value = '',
         string $data = ''
     ): string {
@@ -136,23 +146,34 @@ trait EvmLikeToken
         $totalFeeWei = bcadd($baseFeeWei, $priorityFeeWei, 0);
         $totalFeeWei = bcmul($totalFeeWei, $this->getFeeBuffer(), 0);
 
-        $maxFeePerGas = '0x'.gmp_strval(gmp_init($totalFeeWei, 10), 16);
-        $maxPriorityFeePerGas = '0x'.gmp_strval(gmp_init($priorityFeeWei, 10), 16);
+        $maxFeePerGasDec = $totalFeeWei;
+        $maxFeePerGasHex = '0x'.gmp_strval(gmp_init($totalFeeWei, 10), 16);
+        $maxPriorityFeePerGasHex = '0x'.gmp_strval(gmp_init($priorityFeeWei, 10), 16);
+
+        $gasLimit = $this->estimateGas($fromAddress, $toAddress, $data);
+
+        $txValue = ($value === '' ? '0' : $value);
+        $maxCost = bcadd($txValue, bcmul($gasLimit, $maxFeePerGasDec, 0), 0);
+        if (bccomp($balance, $maxCost, 0) < 0) {
+            throw new GasShortageException($balance, $maxCost);
+        }
+
+        $valueHex = ($txValue === '0') ? '' : '0x'.gmp_strval(gmp_init($txValue, 10), 16);
 
         $transaction = new EIP1559Transaction(
-            $nonce,
-            $maxPriorityFeePerGas,
-            $maxFeePerGas,
+            $this->getNonce($fromAddress),
+            $maxPriorityFeePerGasHex,
+            $maxFeePerGasHex,
             $gasLimit,
-            $to,
-            $value,
-            $data);
+            $toAddress,
+            $valueHex,
+            $data
+        );
 
         $response = $this->rpcRequest('eth_sendRawTransaction', [
             $transaction->build($fromPrivateKey, $this->getChainId()),
         ]);
 
-        // 🌰 "0x5ec2cfcec7693750992a26f07b4eaa7d3fc792021d105dfdbf78989c9d4df18a"
         return $response->json('result');
     }
 

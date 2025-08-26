@@ -171,17 +171,24 @@ trait TokenTrait
         }
 
         $data = (new TransactionBuilder)->encode($toAddress, $amount, $this->getDecimals());
-        [$gasPrice, $gasLimit] = $this->computeGas(
-            $this->estimateGas($fromAddress, $this->getContractAddress(), $data),
-            $this->getNativeCoin()->getBalance($fromAddress),
-        );
-
-        $nonce = $this->getNonce($fromAddress);
+        $nativeBalance = $this->getNativeCoin()->getBalance($fromAddress);
 
         if (! $this->supportsEIP1559Transaction()) {
-            return $this->createLegacyTransaction($fromPrivateKey, $nonce, $gasPrice, $gasLimit, $this->getContractAddress(), data: $data);
+            return $this->createLegacyTransaction(
+                $fromAddress,
+                $fromPrivateKey,
+                $this->getContractAddress(),
+                $nativeBalance,
+                data: $data
+            );
         }
 
-        return $this->createEIP1559Transaction($fromPrivateKey, $nonce, $gasLimit, $this->getContractAddress(), data: $data);
+        return $this->createEIP1559Transaction(
+            $fromAddress,
+            $fromPrivateKey,
+            $this->getContractAddress(),
+            $nativeBalance,
+            data: $data
+        );
     }
 }

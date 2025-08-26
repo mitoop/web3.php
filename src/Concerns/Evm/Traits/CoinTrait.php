@@ -105,15 +105,22 @@ trait CoinTrait
             throw new BalanceShortageException(sprintf('balance: %s, amount: %s', $balance, $amount));
         }
 
-        [$gasPrice, $gasLimit] = $this->computeGas($this->estimateGas($fromAddress, $toAddress), $balance, $amount);
-
-        $nonce = $this->getNonce($fromAddress);
-        $amount = gmp_strval(gmp_init($amount, 10), 16);
-
         if (! $this->supportsEIP1559Transaction()) {
-            return $this->createLegacyTransaction($fromPrivateKey, $nonce, $gasPrice, $gasLimit, $toAddress, $amount);
+            return $this->createLegacyTransaction(
+                $fromAddress,
+                $fromPrivateKey,
+                $toAddress,
+                $balance,
+                $amount
+            );
         }
 
-        return $this->createEIP1559Transaction($fromPrivateKey, $nonce, $gasLimit, $toAddress, $amount);
+        return $this->createEIP1559Transaction(
+            $fromAddress,
+            $fromPrivateKey,
+            $toAddress,
+            $balance,
+            $amount
+        );
     }
 }
