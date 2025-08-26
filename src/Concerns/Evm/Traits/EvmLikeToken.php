@@ -50,20 +50,24 @@ trait EvmLikeToken
     /**
      * @throws RpcException
      */
-    protected function estimateGas(string $fromAddress, string $toAddress, ?string $data = null): string
+    protected function estimateGas(string $fromAddress, string $toAddress, string $value = '', string $data = ''): string
     {
         $params = [
             'from' => $fromAddress,
             'to' => $toAddress,
-            'block' => 'latest',
         ];
 
-        if (! is_null($data)) {
+        if ($data !== '') {
             $params['data'] = $data;
+        }
+
+        if ($value !== '') {
+            $params['value'] = '0x'.gmp_strval(gmp_init($value, 10), 16);
         }
 
         $response = $this->rpcRequest('eth_estimateGas', [
             $params,
+            'latest',
         ]);
 
         // 🌰 "0x5208" => "21000" gas
@@ -103,7 +107,11 @@ trait EvmLikeToken
         string $value = '',
         string $data = ''): string
     {
-        [$gasPrice, $gasLimit] = $this->computeGas($this->estimateGas($fromAddress, $toAddress), $balance, $value === '' ? '0' : $value);
+        [$gasPrice, $gasLimit] = $this->computeGas(
+            $this->estimateGas($fromAddress, $toAddress, $value, $data),
+            $balance,
+            $value === '' ? '0' : $value
+        );
 
         $transaction = new LegacyTransaction(
             $this->getNonce($fromAddress),
@@ -150,7 +158,7 @@ trait EvmLikeToken
         $maxFeePerGasHex = '0x'.gmp_strval(gmp_init($totalFeeWei, 10), 16);
         $maxPriorityFeePerGasHex = '0x'.gmp_strval(gmp_init($priorityFeeWei, 10), 16);
 
-        $gasLimit = $this->estimateGas($fromAddress, $toAddress, $data);
+        $gasLimit = $this->estimateGas($fromAddress, $toAddress, $value, $data);
 
         $txValue = ($value === '' ? '0' : $value);
         $maxCost = bcadd($txValue, bcmul($gasLimit, $maxFeePerGasDec, 0), 0);
