@@ -106,13 +106,13 @@ trait EvmLikeToken
         string $fromAddress,
         #[SensitiveParameter] string $fromPrivateKey,
         string $toAddress,
-        string $balance,
+        string $nativeBalance,
         string $value = '',
         string $data = ''): string
     {
         [$gasPrice, $gasLimit] = $this->computeGas(
             $this->estimateGas($fromAddress, $toAddress, $value, $data),
-            $balance,
+            $nativeBalance,
             $value
         );
 
@@ -145,7 +145,7 @@ trait EvmLikeToken
         string $fromAddress,
         #[SensitiveParameter] string $fromPrivateKey,
         string $toAddress,
-        string $balance,
+        string $nativeBalance,
         string $value = '',
         string $data = ''
     ): string {
@@ -167,8 +167,8 @@ trait EvmLikeToken
 
         $txValue = ($value === '' ? '0' : $value);
         $maxCost = bcadd($txValue, bcmul($gasLimit, $totalFeeWei, 0), 0);
-        if (bccomp($balance, $maxCost, 0) < 0) {
-            throw new GasShortageException($balance, $maxCost);
+        if (bccomp($nativeBalance, $maxCost, 0) < 0) {
+            throw new GasShortageException($nativeBalance, $maxCost);
         }
 
         if ($value !== '') {
