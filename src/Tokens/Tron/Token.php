@@ -112,8 +112,8 @@ class Token extends ChainContext implements TokenInterface
             ) {
                 $value = '0x'.$log['data'];
                 $amount = UnitFormatter::formatUnits($value, $this->getDecimals());
-                $from = $this->toAddressFormat($log['topics'][1]);
-                $to = $this->toAddressFormat($log['topics'][2]);
+                $from = $this->normalizeAddress($log['topics'][1]);
+                $to = $this->normalizeAddress($log['topics'][2]);
                 break;
             }
         }

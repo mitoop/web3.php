@@ -4,7 +4,7 @@ namespace Mitoop\Web3\Concerns\Evm\Traits;
 
 trait EvmAddressTrait
 {
-    public function toAddressFormat(string $address): string
+    public function normalizeAddress(string $address): string
     {
         return '0x'.substr($address, -40);
     }

@@ -66,8 +66,8 @@ trait TokenTrait
             $transactions[] = new Transaction(
                 $item['transactionHash'],
                 $item['address'],
-                $this->toAddressFormat($item['topics'][1]),
-                $this->toAddressFormat($item['topics'][2]),
+                $this->normalizeAddress($item['topics'][1]),
+                $this->normalizeAddress($item['topics'][2]),
                 $item['data'],
                 UnitFormatter::formatUnits($item['data'], $this->getDecimals()),
                 $this->getDecimals(),
@@ -114,7 +114,7 @@ trait TokenTrait
             ) {
                 $value = (string) $log['data'];
                 $amount = UnitFormatter::formatUnits($value, $this->getDecimals());
-                $to = $this->toAddressFormat($log['topics'][2]);
+                $to = $this->normalizeAddress($log['topics'][2]);
             }
         }
 

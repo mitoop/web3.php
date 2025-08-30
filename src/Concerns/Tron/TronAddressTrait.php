@@ -6,7 +6,7 @@ use StephenHill\Base58;
 
 trait TronAddressTrait
 {
-    public function toAddressFormat(string $address): string
+    public function normalizeAddress(string $address): string
     {
         $hexAddress = '41'.substr($address, -40);
         $binaryAddress = hex2bin($hexAddress);
