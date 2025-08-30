@@ -23,14 +23,11 @@ trait TokenTrait
     public function getBalance(string $address): string
     {
         $methodId = '0x70a08231';
-        $paddedAddress = $this->toPaddedAddress($address);
-
-        $data = $methodId.$paddedAddress;
 
         $response = $this->rpcRequest('eth_call', [
             [
                 'to' => $this->getContractAddress(),
-                'data' => $data,
+                'data' => $methodId.$this->toAbiPaddedAddress($address),
             ],
             'latest',
         ]);
@@ -49,7 +46,7 @@ trait TokenTrait
     public function getTransactions(string $address, array $params = []): array
     {
         $topic0 = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef';
-        $topic2 = $this->toPaddedAddress($address, true);
+        $topic2 = $this->toAbiPaddedAddress($address, true);
 
         $response = $this->rpcRequest('eth_getLogs', [
             [

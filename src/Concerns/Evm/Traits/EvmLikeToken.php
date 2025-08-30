@@ -78,7 +78,7 @@ trait EvmLikeToken
      * @throws GasShortageException
      * @throws RpcException
      */
-    protected function computeGas(string $estimatedGas, string $nativeBalance, string $amount): array
+    protected function calculateGasForTransaction(string $estimatedGas, string $nativeBalance, string $amount): array
     {
         if ($amount === '') {
             $amount = '0';
@@ -129,7 +129,7 @@ trait EvmLikeToken
         string $value = '',
         string $data = ''): string
     {
-        [$gasPrice, $gasLimit] = $this->computeGas(
+        [$gasPrice, $gasLimit] = $this->calculateGasForTransaction(
             $this->estimateGas($fromAddress, $toAddress, $value, $data),
             $nativeBalance,
             $value

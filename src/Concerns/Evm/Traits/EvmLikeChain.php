@@ -9,7 +9,7 @@ use Mitoop\Web3\Support\Http\HttpMethod;
 
 trait EvmLikeChain
 {
-    use AddressFormatter;
+    use EvmAddressTrait;
 
     /**
      * @throws RpcException
