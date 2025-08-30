@@ -24,7 +24,7 @@ abstract class AbstractChainContext implements ChainContextInterface
 
     public function __construct(protected array $config) {}
 
-    public function config(string $key, $default = null)
+    public function config(string $key, $default = null): mixed
     {
         return $this->config[$key] ?? $default;
     }
