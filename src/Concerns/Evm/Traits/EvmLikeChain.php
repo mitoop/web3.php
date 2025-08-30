@@ -6,10 +6,12 @@ use Mitoop\Web3\Exceptions\RpcException;
 use Mitoop\Web3\Support\Http\BizResponseInterface;
 use Mitoop\Web3\Support\Http\EvmResponse;
 use Mitoop\Web3\Support\Http\HttpMethod;
+use Mitoop\Web3\Support\Traits\NumberConverterTrait;
+use Mitoop\Web3\Support\Traits\UnitConverterTrait;
 
 trait EvmLikeChain
 {
-    use EvmAddressTrait, EvmUnitConverterTrait;
+    use EvmAddressTrait, NumberConverterTrait, UnitConverterTrait;
 
     /**
      * @throws RpcException

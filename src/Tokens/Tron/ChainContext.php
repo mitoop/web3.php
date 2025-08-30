@@ -12,11 +12,12 @@ use Mitoop\Web3\Exceptions\RpcException;
 use Mitoop\Web3\Support\Http\BizResponseInterface;
 use Mitoop\Web3\Support\Http\HttpMethod;
 use Mitoop\Web3\Support\Http\TronResponse;
+use Mitoop\Web3\Support\Traits\UnitConverterTrait;
 use SensitiveParameter;
 
 class ChainContext extends AbstractChainContext implements TronChainContextInterface
 {
-    use TronAddressTrait;
+    use TronAddressTrait, UnitConverterTrait;
 
     protected ?string $bandwidthPrice = null;
 

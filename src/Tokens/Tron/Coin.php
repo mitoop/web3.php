@@ -121,7 +121,7 @@ class Coin extends ChainContext implements CoinInterface
         string $amount
     ): string {
         $balance = $this->getBalance($fromAddress);
-        $amount = bcmul($amount, bcpow(10, $this->getDecimals(), 0), 0);
+        $amount = $this->parseUnits($amount, $this->getDecimals());
 
         if (bccomp($balance, $amount, $this->getDecimals()) <= 0) {
             throw new BalanceShortageException(sprintf('balance: %s, amount: %s', $balance, $amount));

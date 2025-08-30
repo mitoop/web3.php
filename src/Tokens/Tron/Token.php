@@ -223,7 +223,7 @@ class Token extends ChainContext implements TokenInterface
         $burnEnergySun = bcmul((string) $missingEnergy, $this->getEnergyPrice());
         $burnBandwidthSun = bcmul((string) $missingBandwidth, $this->getBandwidthPrice());
         $totalSun = bcadd($burnEnergySun, $burnBandwidthSun);
-        $fee = bcdiv($totalSun, bcpow('10', (string) $this->getNativeCoinDecimals(), 0), 6);
+        $fee = $this->formatUnits($totalSun, $this->getNativeCoinDecimals());
 
         if (bccomp($fee, '0', $this->getNativeCoinDecimals()) > 0) {
             $nativeCoinBalance = $this->getNativeCoin()->getBalance($fromAddress, true);
