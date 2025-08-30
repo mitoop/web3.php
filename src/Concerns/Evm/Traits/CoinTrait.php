@@ -30,7 +30,7 @@ trait CoinTrait
         ]);
 
         // 🌰 "0x853a0d2313c0000" => "600000000000000000" wei
-        $balance = gmp_strval(gmp_init($response->json('result'), 16));
+        $balance = $this->hexToDecimal($response->json('result'));
 
         if ($asUnit) {
             return UnitFormatter::formatUnits($balance, $this->getDecimals());
@@ -57,8 +57,8 @@ trait CoinTrait
         $to = $response->json('result.to');
 
         $fee = bcmul(
-            gmp_strval(gmp_init($response->json('result.effectiveGasPrice'), 16)),
-            gmp_strval(gmp_init($response->json('result.gasUsed'), 16)),
+            $this->hexToDecimal($response->json('result.effectiveGasPrice')),
+            $this->hexToDecimal($response->json('result.gasUsed')),
             0
         );
 
@@ -99,7 +99,7 @@ trait CoinTrait
         }
 
         $balance = $this->getBalance($fromAddress);
-        $amount = bcmul($amount, bcpow(10, $this->getDecimals(), 0), 0);
+        $amount = $this->parseUnits($amount, $this->getDecimals());
 
         if (bccomp($balance, $amount, $this->getDecimals()) <= 0) {
             throw new BalanceShortageException(sprintf('balance: %s, amount: %s', $balance, $amount));

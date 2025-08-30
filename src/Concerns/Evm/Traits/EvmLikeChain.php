@@ -9,7 +9,7 @@ use Mitoop\Web3\Support\Http\HttpMethod;
 
 trait EvmLikeChain
 {
-    use EvmAddressTrait;
+    use EvmAddressTrait, EvmUnitConverterTrait;
 
     /**
      * @throws RpcException
@@ -52,7 +52,7 @@ trait EvmLikeChain
         ]);
 
         // 🌰 "0x1" => "1"
-        return gmp_strval(gmp_init($response->json('result'), 16));
+        return $this->hexToDecimal($response->json('result'));
     }
 
     /**

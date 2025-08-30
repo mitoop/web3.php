@@ -22,12 +22,12 @@ trait TokenTrait
      */
     public function getBalance(string $address): string
     {
-        $methodId = '0x70a08231';
+        $abiMethodId = '0x70a08231';
 
         $response = $this->rpcRequest('eth_call', [
             [
                 'to' => $this->getContractAddress(),
-                'data' => $methodId.$this->toAbiPaddedAddress($address),
+                'data' => $abiMethodId.$this->toAbiPaddedAddress($address),
             ],
             'latest',
         ]);
@@ -119,8 +119,8 @@ trait TokenTrait
         }
 
         $fee = bcmul(
-            gmp_strval(gmp_init($response->json('result.effectiveGasPrice'), 16)),
-            gmp_strval(gmp_init($response->json('result.gasUsed'), 16)),
+            $this->hexToDecimal($response->json('result.effectiveGasPrice')),
+            $this->hexToDecimal($response->json('result.gasUsed')),
             0
         );
 

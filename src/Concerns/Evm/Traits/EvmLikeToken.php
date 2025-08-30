@@ -33,7 +33,13 @@ trait EvmLikeToken
      */
     protected function getNonce(string $address): string
     {
-        return gmp_strval(gmp_init($this->getTransactionCount($address), 10), 16);
+        $response = $this->rpcRequest('eth_getTransactionCount', [
+            $address,
+            'latest',
+        ]);
+
+        // 🌰 "0x1" => "1"
+        return $response->json('result');
     }
 
     /**
@@ -44,7 +50,7 @@ trait EvmLikeToken
         $response = $this->rpcRequest('eth_gasPrice');
 
         // 🌰 "0x77359400" => "2000000000" wei
-        return gmp_strval(gmp_init($response->json('result'), 16));
+        return $this->hexToDecimal($response->json('result'));
     }
 
     /**
@@ -62,7 +68,7 @@ trait EvmLikeToken
         }
 
         if ($value !== '') {
-            $params['value'] = '0x'.gmp_strval(gmp_init($value, 10), 16);
+            $params['value'] = $this->decimalToHex($value);
         }
 
         $response = $this->rpcRequest('eth_estimateGas', [
@@ -92,8 +98,8 @@ trait EvmLikeToken
         }
 
         $gasLimit = bcmul($estimatedGas, $this->getFeeBuffer(), 0);
-        $gasLimit = gmp_strval(gmp_init($gasLimit, 10), 16);
-        $gasPrice = gmp_strval(gmp_init($gasPrice, 10), 16);
+        $gasLimit = $this->decimalToHex($gasLimit);
+        $gasPrice = $this->decimalToHex($gasPrice);
 
         return [$gasPrice, $gasLimit];
     }
@@ -136,7 +142,7 @@ trait EvmLikeToken
         );
 
         if ($value !== '') {
-            $value = '0x'.gmp_strval(gmp_init($value, 10), 16);
+            $value = $this->decimalToHex($value);
         }
 
         $transaction = new LegacyTransaction(
@@ -170,19 +176,19 @@ trait EvmLikeToken
     ): string {
         [$baseFeePerGasHex, $maxPriorityFeePerGasHex] = $this->getBaseFeePerGas();
 
-        $baseFeeWei = gmp_strval(gmp_init($baseFeePerGasHex, 16));
-        $priorityFeeWei = gmp_strval(gmp_init($maxPriorityFeePerGasHex, 16));
+        $baseFeeWei = $this->hexToDecimal($baseFeePerGasHex);
+        $priorityFeeWei = $this->hexToDecimal($maxPriorityFeePerGasHex);
         if (bccomp($priorityFeeWei, '0', 0) <= 0) {
             $priorityFeeWei = '25000000000';
         }
 
         $totalFeeWei = bcmul(bcadd($baseFeeWei, $priorityFeeWei, 0), $this->getFeeBuffer(), 0);
 
-        $maxFeePerGasHex = '0x'.gmp_strval(gmp_init($totalFeeWei, 10), 16);
-        $maxPriorityFeePerGasHex = '0x'.gmp_strval(gmp_init($priorityFeeWei, 10), 16);
+        $maxFeePerGasHex = $this->decimalToHex($totalFeeWei);
+        $maxPriorityFeePerGasHex = $this->decimalToHex($priorityFeeWei);
 
         $gasLimit = $this->estimateGas($fromAddress, $toAddress, $value, $data);
-        $gasLimitHex = '0x'.gmp_strval(gmp_init($gasLimit, 10), 16);
+        $gasLimitHex = $this->decimalToHex($gasLimit);
 
         $amount = ($value === '' ? '0' : $value);
         $maxCost = bcadd($amount, bcmul($gasLimit, $totalFeeWei, 0), 0);
@@ -191,7 +197,7 @@ trait EvmLikeToken
         }
 
         if ($value !== '') {
-            $value = '0x'.gmp_strval(gmp_init($value, 10), 16);
+            $value = $this->decimalToHex($value);
         }
 
         $transaction = new EIP1559Transaction(
