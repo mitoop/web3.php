@@ -4,7 +4,7 @@ namespace Mitoop\Web3\Concerns\Tron;
 
 use StephenHill\Base58;
 
-trait AddressFormatter
+trait TronAddressTrait
 {
     public function toAddressFormat(string $address): string
     {
@@ -15,7 +15,7 @@ trait AddressFormatter
         return (new Base58)->encode($binaryAddress.hex2bin($checksum));
     }
 
-    public function toPaddedAddress(string $address): string
+    public function toAbiPaddedAddress(string $address): string
     {
         return str_pad(self::toHexAddress($address), 64, '0', STR_PAD_LEFT);
     }

@@ -28,7 +28,7 @@ class Token extends ChainContext implements TokenInterface
         $response = $this->rpcRequest('/wallet/triggersmartcontract', [
             'contract_address' => $this->getContractAddress(),
             'function_selector' => 'balanceOf(address)',
-            'parameter' => $this->toPaddedAddress($address),
+            'parameter' => $this->toAbiPaddedAddress($address),
             'owner_address' => $address,
             'visible' => true,
         ]);

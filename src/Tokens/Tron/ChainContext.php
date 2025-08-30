@@ -3,9 +3,9 @@
 namespace Mitoop\Web3\Tokens\Tron;
 
 use Mitoop\Web3\Concerns\AbstractChainContext;
-use Mitoop\Web3\Concerns\Tron\AddressFormatter;
 use Mitoop\Web3\Concerns\Tron\Resource;
 use Mitoop\Web3\Concerns\Tron\TransactionBuilder;
+use Mitoop\Web3\Concerns\Tron\TronAddressTrait;
 use Mitoop\Web3\Contracts\Tron\TronChainContextInterface;
 use Mitoop\Web3\Exceptions\BroadcastException;
 use Mitoop\Web3\Exceptions\RpcException;
@@ -16,7 +16,7 @@ use SensitiveParameter;
 
 class ChainContext extends AbstractChainContext implements TronChainContextInterface
 {
-    use AddressFormatter;
+    use TronAddressTrait;
 
     protected ?string $bandwidthPrice = null;
 
