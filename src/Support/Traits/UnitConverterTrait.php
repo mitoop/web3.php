@@ -13,7 +13,7 @@ trait UnitConverterTrait
         return rtrim(rtrim($number, '0'), '.');
     }
 
-    public function formatUnits(string|int $amount, string|int $decimals, bool $removeTrailingZeros = true): string
+    protected function formatUnits(string|int $amount, string|int $decimals, bool $removeTrailingZeros = true): string
     {
         $amount = (string) $amount;
         $decimals = (string) $decimals;
