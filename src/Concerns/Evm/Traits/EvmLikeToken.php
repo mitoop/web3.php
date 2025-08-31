@@ -10,6 +10,8 @@ use SensitiveParameter;
 
 trait EvmLikeToken
 {
+    use EvmLikeChain;
+
     /**
      * @throws RpcException
      */
