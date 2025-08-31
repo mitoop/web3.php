@@ -8,7 +8,6 @@ use Mitoop\Web3\Exceptions\BalanceShortageException;
 use Mitoop\Web3\Exceptions\GasShortageException;
 use Mitoop\Web3\Exceptions\InvalidArgumentException;
 use Mitoop\Web3\Exceptions\RpcException;
-use Mitoop\Web3\Support\UnitFormatter;
 use Mitoop\Web3\Transactions\Transaction;
 use Mitoop\Web3\Transactions\TransactionInfo;
 use SensitiveParameter;
@@ -32,7 +31,7 @@ trait TokenTrait
             'latest',
         ]);
 
-        return UnitFormatter::formatUnits($response->json('result'), $this->getDecimals());
+        return $this->formatUnits($response->json('result'), $this->getDecimals());
     }
 
     /**
@@ -69,7 +68,7 @@ trait TokenTrait
                 $this->normalizeAddress($item['topics'][1]),
                 $this->normalizeAddress($item['topics'][2]),
                 $item['data'],
-                UnitFormatter::formatUnits($item['data'], $this->getDecimals()),
+                $this->formatUnits($item['data'], $this->getDecimals()),
                 $this->getDecimals(),
             );
         }
@@ -113,7 +112,7 @@ trait TokenTrait
                 ! $log['removed']
             ) {
                 $value = (string) $log['data'];
-                $amount = UnitFormatter::formatUnits($value, $this->getDecimals());
+                $amount = $this->formatUnits($value, $this->getDecimals());
                 $to = $this->normalizeAddress($log['topics'][2]);
             }
         }
@@ -124,7 +123,7 @@ trait TokenTrait
             0
         );
 
-        $fee = UnitFormatter::formatUnits($fee, $this->getNativeCoinDecimals());
+        $fee = $this->formatUnits($fee, $this->getNativeCoinDecimals());
 
         return new TransactionInfo(
             true,

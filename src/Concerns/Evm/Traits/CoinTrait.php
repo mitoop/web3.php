@@ -6,7 +6,6 @@ use Mitoop\Web3\Exceptions\BalanceShortageException;
 use Mitoop\Web3\Exceptions\GasShortageException;
 use Mitoop\Web3\Exceptions\InvalidArgumentException;
 use Mitoop\Web3\Exceptions\RpcException;
-use Mitoop\Web3\Support\UnitFormatter;
 use Mitoop\Web3\Transactions\TransactionInfo;
 use SensitiveParameter;
 
@@ -33,7 +32,7 @@ trait CoinTrait
         $balance = $this->hexToDecimal($response->json('result'));
 
         if ($asUnit) {
-            return UnitFormatter::formatUnits($balance, $this->getDecimals());
+            return $this->formatUnits($balance, $this->getDecimals());
         }
 
         return $balance;
@@ -62,14 +61,14 @@ trait CoinTrait
             0
         );
 
-        $fee = UnitFormatter::formatUnits($fee, $this->getNativeCoinDecimals());
+        $fee = $this->formatUnits($fee, $this->getNativeCoinDecimals());
 
         $response = $this->rpcRequest('eth_getTransactionByHash', [
             $txId,
         ]);
 
         $value = (string) $response->json('result.value');
-        $amount = UnitFormatter::formatUnits($value, $this->getDecimals());
+        $amount = $this->formatUnits($value, $this->getDecimals());
 
         return new TransactionInfo(
             true,

@@ -11,7 +11,6 @@ use Mitoop\Web3\Exceptions\GasShortageException;
 use Mitoop\Web3\Exceptions\RpcException;
 use Mitoop\Web3\Exceptions\TransactionExecutionFailedException;
 use Mitoop\Web3\Support\Http\HttpMethod;
-use Mitoop\Web3\Support\UnitFormatter;
 use Mitoop\Web3\Transactions\Transaction;
 use Mitoop\Web3\Transactions\TransactionInfo;
 use SensitiveParameter;
@@ -33,7 +32,7 @@ class Token extends ChainContext implements TokenInterface
             'visible' => true,
         ]);
 
-        return UnitFormatter::formatUnits('0x'.$response->json('constant_result.0'), $this->getDecimals());
+        return $this->formatUnits('0x'.$response->json('constant_result.0'), $this->getDecimals());
     }
 
     /**
@@ -67,7 +66,7 @@ class Token extends ChainContext implements TokenInterface
                 $item['from'],
                 $item['to'],
                 $item['value'],
-                UnitFormatter::formatUnits($item['value'], $decimals = (int) $item['token_info']['decimals']),
+                $this->formatUnits($item['value'], $decimals = (int) $item['token_info']['decimals']),
                 $decimals,
             );
         }
@@ -111,7 +110,7 @@ class Token extends ChainContext implements TokenInterface
                 strtolower($log['address']) === strtolower($this->toHexAddress($this->getContractAddress(), true))
             ) {
                 $value = '0x'.$log['data'];
-                $amount = UnitFormatter::formatUnits($value, $this->getDecimals());
+                $amount = $this->formatUnits($value, $this->getDecimals());
                 $from = $this->normalizeAddress($log['topics'][1]);
                 $to = $this->normalizeAddress($log['topics'][2]);
                 break;
@@ -125,7 +124,7 @@ class Token extends ChainContext implements TokenInterface
             $to,
             $value,
             $amount,
-            UnitFormatter::formatUnits($response->json('fee'), $this->getNativeCoinDecimals()),
+            $this->formatUnits($response->json('fee'), $this->getNativeCoinDecimals()),
         );
     }
 
@@ -223,7 +222,7 @@ class Token extends ChainContext implements TokenInterface
         $burnEnergySun = bcmul((string) $missingEnergy, $this->getEnergyPrice());
         $burnBandwidthSun = bcmul((string) $missingBandwidth, $this->getBandwidthPrice());
         $totalSun = bcadd($burnEnergySun, $burnBandwidthSun);
-        $fee = $this->formatUnits($totalSun, $this->getNativeCoinDecimals());
+        $fee = $this->formatUnits($totalSun, $this->getNativeCoinDecimals(), false);
 
         if (bccomp($fee, '0', $this->getNativeCoinDecimals()) > 0) {
             $nativeCoinBalance = $this->getNativeCoin()->getBalance($fromAddress, true);
