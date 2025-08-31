@@ -5,6 +5,7 @@ namespace Mitoop\Web3\Tokens\Tron;
 use Mitoop\Web3\Concerns\HasTokenProperties;
 use Mitoop\Web3\Concerns\Tron\TransactionBuilder;
 use Mitoop\Web3\Contracts\TokenInterface;
+use Mitoop\Web3\Enums\EventTopic;
 use Mitoop\Web3\Exceptions\BalanceShortageException;
 use Mitoop\Web3\Exceptions\BroadcastException;
 use Mitoop\Web3\Exceptions\GasShortageException;
@@ -105,7 +106,7 @@ class Token extends ChainContext implements TokenInterface
         foreach ($logs as $log) {
             if (! empty($log['topics'][0])
                 &&
-                $log['topics'][0] === 'ddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef'
+                $log['topics'][0] === EventTopic::TronTransfer->value
                 &&
                 strtolower($log['address']) === strtolower($this->toHexAddress($this->getContractAddress(), true))
             ) {

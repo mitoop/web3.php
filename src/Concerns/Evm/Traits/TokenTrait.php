@@ -4,6 +4,7 @@ namespace Mitoop\Web3\Concerns\Evm\Traits;
 
 use Mitoop\Web3\Concerns\Evm\Transactions\TransactionBuilder;
 use Mitoop\Web3\Concerns\HasTokenProperties;
+use Mitoop\Web3\Enums\EventTopic;
 use Mitoop\Web3\Exceptions\BalanceShortageException;
 use Mitoop\Web3\Exceptions\GasShortageException;
 use Mitoop\Web3\Exceptions\InvalidArgumentException;
@@ -44,7 +45,7 @@ trait TokenTrait
      */
     public function getTransactions(string $address, array $params = []): array
     {
-        $topic0 = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef';
+        $topic0 = EventTopic::EvmTransfer->value;
         $topic2 = $this->toAbiPaddedAddress($address, true);
 
         $response = $this->rpcRequest('eth_getLogs', [
@@ -105,7 +106,7 @@ trait TokenTrait
         foreach ($logs as $log) {
             if (! empty($log['topics'][0])
                 &&
-                $log['topics'][0] === '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef'
+                $log['topics'][0] === EventTopic::EvmTransfer->value
                 &&
                 strtolower($log['address']) === strtolower($this->getContractAddress())
                 &&
