@@ -5,6 +5,7 @@ namespace Mitoop\Web3\Concerns\Evm\Traits;
 use Mitoop\Web3\Concerns\Evm\Transactions\TransactionBuilder;
 use Mitoop\Web3\Concerns\HasTokenProperties;
 use Mitoop\Web3\Enums\EventTopic;
+use Mitoop\Web3\Enums\MethodSelector;
 use Mitoop\Web3\Exceptions\BalanceShortageException;
 use Mitoop\Web3\Exceptions\GasShortageException;
 use Mitoop\Web3\Exceptions\InvalidArgumentException;
@@ -22,7 +23,7 @@ trait TokenTrait
      */
     public function getBalance(string $address): string
     {
-        $abiMethodId = '0x70a08231';
+        $abiMethodId = MethodSelector::EvmBalance->value;
 
         $response = $this->rpcRequest('eth_call', [
             [
