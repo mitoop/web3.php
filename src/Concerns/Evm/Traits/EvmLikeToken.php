@@ -174,7 +174,7 @@ trait EvmLikeToken
         ]);
 
         // 🌰 "0x5208" => "21000" gas
-        return gmp_strval(gmp_init($response->json('result'), 16));
+        return $this->hexToDecimal($response->json('result'));
     }
 
     /**
