@@ -135,7 +135,7 @@ trait EvmLikeToken
             'latest',
         ]);
 
-        // 🌰 "0x1" => "1"
+        // 🌰 "0x1"
         return $response->json('result');
     }
 
