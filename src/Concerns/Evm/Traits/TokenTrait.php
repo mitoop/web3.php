@@ -135,6 +135,7 @@ trait TokenTrait
             $value,
             $amount,
             $fee,
+            $this->getDecimals()
         );
     }
 

@@ -78,6 +78,7 @@ trait CoinTrait
             $value,
             $amount,
             $fee,
+            $this->getDecimals()
         );
     }
 

@@ -12,5 +12,6 @@ class TransactionInfo
         public string $value,
         public string $amount,
         public string $fee,
+        public int $decimals,
     ) {}
 }

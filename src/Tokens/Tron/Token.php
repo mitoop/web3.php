@@ -126,6 +126,7 @@ class Token extends ChainContext implements TokenInterface
             $value,
             $amount,
             $this->formatUnits($response->json('fee'), $this->getNativeCoinDecimals()),
+            $this->getDecimals()
         );
     }
 

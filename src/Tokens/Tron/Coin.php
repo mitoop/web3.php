@@ -85,6 +85,7 @@ class Coin extends ChainContext implements CoinInterface
             $value,
             $this->formatUnits($value, $this->getDecimals()),
             $fee,
+            $this->getDecimals()
         );
     }
 
