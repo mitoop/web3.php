@@ -83,7 +83,6 @@ $token->getTransactions($address, [
 
 ```bash
 composer test
-composer format
 ```
 
 本地真实测试网转账（自备测试网钱包与余额，私钥不进仓库）：
