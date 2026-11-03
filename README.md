@@ -86,24 +86,19 @@ composer test
 composer format
 ```
 
-本地真实测试网转账：
+本地真实测试网转账（每人自备钱包，私钥不会进仓库）：
 
 ```bash
 cp .env.example .env
-# 填入 WEB3_EVM_* / WEB3_TRON_*（可用 generateWallet() 生成）
-# 设置 WEB3_RUN_INTEGRATION=1
+```
+
+用 `generateWallet()` 生成 EVM / Tron 钱包，把地址和私钥写入 `.env`，再向**你自己的地址**打测试币（Sepolia / BSC Testnet / Amoy / Nile 等）。设 `WEB3_RUN_INTEGRATION=1` 后执行：
+
+```bash
 composer test:integration
 ```
 
-余额不足或 RPC 不可用时用例会 skip。私钥只放本机 `.env`（已在 `.gitignore`），勿提交、勿发到聊天。
-
-若使用本仓库当前本地集成钱包，可向下列地址打测试币：
-
-| 网络 | 地址 | 建议最少 |
-|------|------|----------|
-| Ethereum Sepolia | `0x2282c73c499ebaa09ef282859ead16e4f1d723fb` | 0.01 ETH |
-| BSC Testnet / Polygon Amoy | 同上（同一 EVM 钱包） | 少量原生币 |
-| Tron Nile | `TKFzK7beg7Y65S11ufYMe1vqVvHBWcQh9c` | ≥ 2 TRX |
+余额不足或 RPC 不可用时用例会 skip。私钥只放本机 `.env`，勿提交、勿发到聊天。
 
 水龙头可搜：Sepolia faucet、BSC testnet faucet、Polygon Amoy faucet、[Nile faucet](https://nileex.io/join/getJoinPage)。
 
