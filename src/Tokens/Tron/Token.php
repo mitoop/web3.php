@@ -105,6 +105,7 @@ class Token extends ChainContext implements TokenInterface
         $to = '';
         $value = '';
         $amount = '';
+        $matched = false;
         foreach ($logs as $log) {
             if (! empty($log['topics'][0])
                 &&
@@ -116,8 +117,13 @@ class Token extends ChainContext implements TokenInterface
                 $amount = $this->formatUnits($value, $this->getDecimals());
                 $from = $this->normalizeAddress($log['topics'][1]);
                 $to = $this->normalizeAddress($log['topics'][2]);
+                $matched = true;
                 break;
             }
+        }
+
+        if (! $matched) {
+            return null;
         }
 
         return new TransactionInfo(
