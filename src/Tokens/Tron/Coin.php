@@ -102,11 +102,20 @@ class Coin extends ChainContext implements CoinInterface
             return false;
         }
 
-        if (is_null($response->json('blockNumber'))) {
+        if ($response->json('result') === 'FAILED') {
             return false;
         }
 
-        return true;
+        $response = $this->rpcRequest('walletsolidity/gettransactionbyid', [
+            'value' => $txId,
+            'visible' => true,
+        ]);
+
+        if (empty($response->json())) {
+            return false;
+        }
+
+        return $response->json('ret.0.contractRet') === 'SUCCESS';
     }
 
     /**
