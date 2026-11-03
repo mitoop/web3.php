@@ -44,6 +44,11 @@ class ChainContext extends AbstractChainContext implements TronChainContextInter
         return 6;
     }
 
+    protected function toSun(string|int|float $amount): int
+    {
+        return (int) $this->parseUnits((string) $amount, (string) $this->getNativeCoinDecimals());
+    }
+
     /**
      * @throws RpcException
      */
@@ -69,7 +74,7 @@ class ChainContext extends AbstractChainContext implements TronChainContextInter
     ): string {
         $response = $this->rpcRequest('wallet/freezebalancev2', [
             'owner_address' => $address,
-            'frozen_balance' => (int) ($amount * $this->getNativeCoinDecimals()),
+            'frozen_balance' => $this->toSun($amount),
             'resource' => $resource->value,
             'visible' => true,
         ]);
@@ -91,7 +96,7 @@ class ChainContext extends AbstractChainContext implements TronChainContextInter
     ): string {
         $response = $this->rpcRequest('wallet/unfreezebalancev2', [
             'owner_address' => $address,
-            'unfreeze_balance' => (int) ($amount * $this->getNativeCoinDecimals()),
+            'unfreeze_balance' => $this->toSun($amount),
             'resource' => $resource->value,
             'visible' => true,
         ]);
@@ -116,7 +121,7 @@ class ChainContext extends AbstractChainContext implements TronChainContextInter
             'owner_address' => $from,
             'resource' => $resource->value,
             'receiver_address' => $to,
-            'balance' => (int) ($amount * $this->getNativeCoinDecimals()),
+            'balance' => $this->toSun($amount),
             'lock' => false,
             'visible' => true,
         ]);
@@ -141,7 +146,7 @@ class ChainContext extends AbstractChainContext implements TronChainContextInter
             'owner_address' => $from,
             'resource' => $resource->value,
             'receiver_address' => $to,
-            'balance' => (int) ($amount * $this->getNativeCoinDecimals()),
+            'balance' => $this->toSun($amount),
             'visible' => true,
         ]);
 
