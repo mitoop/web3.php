@@ -1,19 +1,20 @@
-<h2 align="center">🍎 为 PHP 提供统一的多链钱包、余额与转账能力</h2>
+# web3.php
 
-支持以太坊（ERC-20）、币安智能链（BEP-20）、Polygon 以及波场（TRC-20），并覆盖各链原生币（ETH、BNB、POL、TRX）。Solana 目前仅支持钱包生成与地址校验。
+PHP 多链 Web3 工具库：统一封装钱包生成、余额查询与转账，面向 EVM 兼容链与 Tron。
 
-- 支持钱包生成与地址校验
-- 支持代币和原生币余额查询
-- 支持交易状态与详情查询
-- 支持代币和原生币转账
+| 能力 | eth / bsc / polygon | tron | sol |
+| --- | --- | --- | --- |
+| 钱包生成 / 地址校验 | ✅ | ✅ | ✅ |
+| 原生币余额 / 转账 | ✅ | ✅ | — |
+| 代币余额 / 转账 | ERC-20 / BEP-20 | TRC-20 | — |
+| 交易查询 / 状态 | ✅ | ✅ | — |
+| 资源质押 / 委托 | — | ✅ | — |
 
 ## 环境要求
 
-- PHP ^8.3
-- ext-bcmath
-- ext-gmp
-- ext-ctype
-- ext-sodium（仅 Solana 钱包需要）
+- PHP `^8.3`
+- 扩展：`bcmath`、`gmp`、`ctype`
+- `ext-sodium`（仅 Solana 钱包需要）
 
 ## 安装
 
@@ -21,7 +22,31 @@
 composer require mitoop/web3.php
 ```
 
-## 快速开始
+## 钱包
+
+钱包为离线能力，不依赖 RPC。推荐通过 `Wallets\Factory` 直接调用：
+
+```php
+use Mitoop\Web3\Wallets\Factory;
+
+$wallet = Factory::create('eth')->generate();
+// $wallet->address / $wallet->privateKey / $wallet->publicKey
+
+Factory::create('eth')->validate($wallet->address); // bool
+```
+
+支持的 `chain`：`eth`、`bsc`、`polygon`、`tron`、`sol`。
+
+Token / Coin 实例上也提供同名能力，便于在已有链上下文中顺手调用；内部委托给 Factory：
+
+```php
+$wallet = $token->generateWallet();
+$token->validateAddress($wallet->address);
+```
+
+## Token 与 Coin
+
+通过 Builder 注入链配置后即可查询余额、发起转账：
 
 ```php
 use Mitoop\Web3\TokenBuilder;
@@ -29,7 +54,7 @@ use Mitoop\Web3\CoinBuilder;
 
 $token = TokenBuilder::fromArray([
     'chain' => 'eth',
-    'chain_id' => 11155111,
+    'chain_id' => 11155111, // Sepolia
     'contract_address' => '0x779877A7B0D9E8603169DdbD7836e478b4624789',
     'decimals' => 18,
     'rpc_url' => 'https://sepolia.infura.io/v3/your_api_key',
@@ -37,26 +62,51 @@ $token = TokenBuilder::fromArray([
     'explorer_url' => 'https://sepolia.etherscan.io',
 ])->build();
 
-$wallet = $token->generateWallet();
-$token->validateAddress($wallet->address);
-$token->getBalance($wallet->address);
+$balance = $token->getBalance($address);
+$txId = $token->transfer($from, $privateKey, $to, '1.5');
+$status = $token->getTransactionStatus($txId);
 
+// 同源生币：从 Token 取，或直接用 CoinBuilder
 $coin = $token->getNativeCoin();
-// 也可直接：CoinBuilder::fromArray([...])->build();
-$coin->getBalance($wallet->address);
+// $coin = CoinBuilder::fromArray([...])->build();
+
+$coin->getBalance($address);
+$coin->transfer($from, $privateKey, $to, '0.01');
 ```
 
-`chain` 取值：`eth` / `bsc` / `polygon` / `tron`。Solana 钱包请用 `Mitoop\Web3\Wallets\Factory::create('sol')->generate()`。
+### 配置项
 
-### Tron `fee_limit`
+| 字段 | Token | Coin | 说明 |
+| --- | --- | --- | --- |
+| `chain` | 必填 | 必填 | `eth` / `bsc` / `polygon` / `tron` |
+| `chain_id` | 必填 | 必填 | 链 ID；Tron 可填 `0` |
+| `contract_address` | 必填 | — | 代币合约地址 |
+| `decimals` | 必填 | — | 代币精度 |
+| `rpc_url` | 必填 | 必填 | RPC 节点 |
+| `rpc_api_key` | 可选 | 可选 | 节点 API Key |
+| `rpc_timeout` | 可选 | 可选 | 请求超时（秒） |
+| `explorer_url` | 必填 | 必填 | 浏览器地址，用于拼装链接 |
 
-Tron 代币/原生转账可用 `setFeeLimit` 设置单笔最多愿意燃烧的能量费用上限，单位是 sun，默认 `30_000_000`（30 TRX）：
+### EVM：入账交易列表
+
+`getTransactions` **必须**传入 `from_block`，且仅返回转入该地址的记录（不含转出）：
+
+```php
+$token->getTransactions($address, [
+    'from_block' => '0x0',
+    'to_block' => 'latest',
+]);
+```
+
+### Tron：`fee_limit`
+
+代币 / 原生转账可通过 `setFeeLimit` 设置单笔可燃烧能量费用上限，单位为 sun，默认 `30_000_000`（30 TRX）：
 
 ```php
 $tronToken = TokenBuilder::fromArray([
     'chain' => 'tron',
     'chain_id' => 0,
-    'contract_address' => 'TXYZopYRdj2D9XRtbG411XZZ3kM5VkAeBf', // 示例
+    'contract_address' => 'TXYZopYRdj2D9XRtbG411XZZ3kM5VkAeBf',
     'decimals' => 6,
     'rpc_url' => 'https://nile.trongrid.io',
     'rpc_api_key' => '',
@@ -66,56 +116,49 @@ $tronToken = TokenBuilder::fromArray([
 $tronToken->setFeeLimit(50_000_000)->transfer($from, $privateKey, $to, $amount);
 ```
 
-### EVM 入账列表
-
-EVM `getTransactions` **必须**传入 `from_block`，且只返回转入该地址的交易（不含转出）：
-
-```php
-$token->getTransactions($address, [
-    'from_block' => '0x0',
-    'to_block' => 'latest',
-]);
-```
-
 ## 测试
 
-单元测试（默认；CI 也只跑这一套，不访问链上、不需要密钥）：
+单元测试（默认；CI 仅跑此套，不访问链上、无需密钥）：
 
 ```bash
 composer test
 ```
 
-本地真实测试网转账（自备测试网钱包与余额，私钥不进仓库）：
+集成测试（真实测试网转账；私钥仅放本地 `.env`，勿提交仓库）：
 
 ```bash
 cp .env.example .env
-# 填写密钥与 WEB3_RUN_INTEGRATION=1
+# 填写密钥，并设置 WEB3_RUN_INTEGRATION=1
 composer test:integration
 ```
 
-余额不足或 RPC 不可用时用例会 skip。
+余额不足或 RPC 不可用时，相关用例会自动 skip。
+
+## 安全提示
+
+- 私钥仅用于本地签名，请勿写入代码仓库或日志。
+- 生产环境请使用受信 RPC，并严格控制热钱包余额。
+- 本库侧重学习与工程封装，上线前请自行完成充分测试与审计。
 
 ## 打赏
 
-如果该项目对您有所帮助，希望可以请我喝一杯咖啡
+如果该项目对您有所帮助，欢迎请作者喝杯咖啡：
 
-- **Ethereum:** `0x3C99992DAa67403A03ba18AD2f36e344cE0A6Bfa`
-- **Binance Smart Chain:** `0x3C99992DAa67403A03ba18AD2f36e344cE0A6Bfa`
-- **Polygon:** `0x3C99992DAa67403A03ba18AD2f36e344cE0A6Bfa`
-- **Tron:** `TSB2wHyR9XbBSypkj2CrbRzAwVkXaNrjNJ`
-- **Solana:** `Hwpo37icHRirLfNR7LN6fopkzsTHt91wfzF1iHK3wz44`
+| 网络 | 地址 |
+| --- | --- |
+| Ethereum | `0x3C99992DAa67403A03ba18AD2f36e344cE0A6Bfa` |
+| BNB Smart Chain | `0x3C99992DAa67403A03ba18AD2f36e344cE0A6Bfa` |
+| Polygon | `0x3C99992DAa67403A03ba18AD2f36e344cE0A6Bfa` |
+| Tron | `TSB2wHyR9XbBSypkj2CrbRzAwVkXaNrjNJ` |
+| Solana | `Hwpo37icHRirLfNR7LN6fopkzsTHt91wfzF1iHK3wz44` |
 
 ## 声明
 
 本项目为开源产品，仅用于学习交流。不可用于任何违反中华人民共和国（含台湾省）或使用者所在地区法律法规的用途。作者仅完成代码开发与开源，不参与任何运营和盈利活动；因使用本项目产生的法律责任由使用者自行承担。
 
-```
-！！！Warning！！！
-项目中所涉及区块链代币均为学习用途，作者并不赞成区块链所繁衍出代币的金融属性
-亦不鼓励和支持任何"挖矿"，"炒币"，"虚拟币ICO"等非法行为
-虚拟币市场行为不受监管要求和控制，投资交易需谨慎，仅供学习区块链知识
-```
+> **Warning**  
+> 项目中涉及的区块链代币均为学习用途。作者不赞成将代币作为投机标的，亦不鼓励或支持挖矿、炒币、虚拟币 ICO 等违法违规行为。虚拟币市场不受传统金融监管约束，投资交易需谨慎，本项目仅供学习区块链相关知识。
 
 ## License
 
-MIT
+[MIT](LICENSE)
