@@ -25,10 +25,6 @@ class SolWallet implements WalletInterface
 
     public function validate(string $address): bool
     {
-        if (strlen($address) != 44) {
-            return false;
-        }
-
         try {
             return strlen((new Base58)->decode($address)) === 32;
         } catch (Throwable) {
