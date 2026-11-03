@@ -103,6 +103,7 @@ trait TokenTrait
         $amount = '';
         $from = $response->json('result.from');
         $to = '';
+        $matched = false;
         $logs = $response->json('result.logs', []);
         foreach ($logs as $log) {
             if (! empty($log['topics'][0])
@@ -116,7 +117,12 @@ trait TokenTrait
                 $value = (string) $log['data'];
                 $amount = $this->formatUnits($value, $this->getDecimals());
                 $to = $this->normalizeAddress($log['topics'][2]);
+                $matched = true;
             }
+        }
+
+        if (! $matched) {
+            return null;
         }
 
         $fee = bcmul(
