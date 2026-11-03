@@ -286,7 +286,7 @@ trait EvmLikeToken
         $maxFeePerGasHex = $this->decimalToHex($totalFeeWei);
         $maxPriorityFeePerGasHex = $this->decimalToHex($priorityFeeWei);
 
-        $gasLimit = $this->estimateGas($fromAddress, $toAddress, $value, $data);
+        $gasLimit = bcmul($this->estimateGas($fromAddress, $toAddress, $value, $data), $this->getFeeBuffer(), 0);
         $gasLimitHex = $this->decimalToHex($gasLimit);
 
         $amount = ($value === '' ? '0' : $value);
