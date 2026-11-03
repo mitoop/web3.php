@@ -44,10 +44,15 @@ trait TokenTrait
      *      to_block: string, // 'latest'
      *   }  $params  查询参数
      *
+     * @throws InvalidArgumentException
      * @throws RpcException
      */
     public function getTransactions(string $address, array $params = []): array
     {
+        if (! isset($params['from_block']) || $params['from_block'] === '') {
+            throw new InvalidArgumentException('from_block is required');
+        }
+
         $topic0 = EventTopic::EvmTransfer->value;
         $topic2 = $this->toAbiPaddedAddress($address, true);
 
