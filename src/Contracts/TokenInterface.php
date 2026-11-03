@@ -15,6 +15,9 @@ interface TokenInterface extends ChainContextInterface
 
     public function getBalance(string $address): string;
 
+    /**
+     * 只查询转入该地址的交易，不包含转出。
+     */
     public function getTransactions(string $address, array $params = []): array;
 
     public function getTransaction(string $txId): ?TransactionInfo;

@@ -37,8 +37,10 @@ trait TokenTrait
     }
 
     /**
+     * 只查询转入该地址的交易，不包含转出。
+     *
      * @param  array{
-     *      from_block: string, // 十六进制
+     *      from_block: string, // 十六进制，必填
      *      to_block: string, // 'latest'
      *   }  $params  查询参数
      *

@@ -37,6 +37,8 @@ class Token extends ChainContext implements TokenInterface
     }
 
     /**
+     * 只查询转入该地址的交易，不包含转出。
+     *
      * @param  array{
      *      limit?: int,  // 默认 20 最大 200
      *      min_timestamp?: int|string // 毫秒级，默认0
