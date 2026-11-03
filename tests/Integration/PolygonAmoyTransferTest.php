@@ -16,12 +16,11 @@ class PolygonAmoyTransferTest extends IntegrationTestCase
     {
         $address = $this->env('WEB3_EVM_ADDRESS');
         $privateKey = $this->env('WEB3_EVM_PRIVATE_KEY');
-        $rpcUrl = $this->env('WEB3_POLYGON_AMOY_RPC_URL');
 
         $coin = CoinBuilder::fromArray([
             'chain' => 'polygon',
             'chain_id' => 80002,
-            'rpc_url' => $rpcUrl,
+            'rpc_url' => $this->env('WEB3_POLYGON_AMOY_RPC_URL'),
             'rpc_api_key' => '',
             'explorer_url' => 'https://amoy.polygonscan.com',
         ])->build();
@@ -34,6 +33,38 @@ class PolygonAmoyTransferTest extends IntegrationTestCase
 
         $hash = $this->rpc(fn () => $coin->transfer($address, $privateKey, $address, '0.000001'));
 
-        $this->assertMatchesRegularExpression('/^0x[a-fA-F0-9]{64}$/', $hash);
+        $this->assertTxHash($hash);
+    }
+
+    #[Test]
+    public function transfers_link_on_amoy(): void
+    {
+        $address = $this->env('WEB3_EVM_ADDRESS');
+        $privateKey = $this->env('WEB3_EVM_PRIVATE_KEY');
+        $decimals = $this->envInt('WEB3_AMOY_LINK_DECIMALS');
+        $amount = '0.000001';
+
+        $token = $this->token([
+            'chain' => 'polygon',
+            'chain_id' => 80002,
+            'contract_address' => $this->env('WEB3_AMOY_LINK_CONTRACT'),
+            'decimals' => $decimals,
+            'rpc_url' => $this->env('WEB3_POLYGON_AMOY_RPC_URL'),
+            'explorer_url' => 'https://amoy.polygonscan.com',
+        ]);
+
+        $native = $this->rpc(fn () => $token->getNativeCoin()->getBalance($address, true));
+        if (bccomp($native, '0.01', 18) < 0) {
+            $this->markTestSkipped("Fund Amoy wallet {$address} with POL for gas. Current: {$native}");
+        }
+
+        $balance = $this->rpc(fn () => $token->getBalance($address));
+        if (bccomp($balance, $amount, $decimals) < 0) {
+            $this->markTestSkipped("Fund Amoy wallet {$address} with LINK. Current: {$balance}");
+        }
+
+        $hash = $this->rpc(fn () => $token->transfer($address, $privateKey, $address, $amount));
+
+        $this->assertTxHash($hash);
     }
 }
