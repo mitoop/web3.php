@@ -35,7 +35,8 @@
         }
     },
     "scripts": {
-        "test": "@php vendor/bin/phpunit",
+        "test": "@php vendor/bin/phpunit --testsuite=Unit",
+        "test:integration": "@php vendor/bin/phpunit --testsuite=Integration",
         "format": "@php vendor/bin/pint"
     }
 }

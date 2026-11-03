@@ -1,8 +1,6 @@
-# web3.php
+<h2 align="center">🍎 为 PHP 提供统一的多链钱包、余额与转账能力</h2>
 
-<p align="center">🍎 为 PHP 提供统一的多链钱包、余额与转账能力</p>
-
-支持以太坊（ERC-20）、币安智能链（BEP-20）、Polygon 以及波场（TRC-20），并覆盖各链原生币（ETH、BNB、POL、TRX）。
+支持以太坊（ERC-20）、币安智能链（BEP-20）、Polygon 以及波场（TRC-20），并覆盖各链原生币（ETH、BNB、POL、TRX）。Solana 目前仅支持钱包生成与地址校验。
 
 - 支持钱包生成与地址校验
 - 支持代币和原生币余额查询
@@ -11,14 +9,13 @@
 
 ## 环境要求
 
-* PHP ^8.3
-* ext-bcmath
-* ext-gmp
-* ext-ctype
+- PHP ^8.3
+- ext-bcmath
+- ext-gmp
+- ext-ctype
+- ext-sodium（仅 Solana 钱包需要）
 
 ## 安装
-
-通过 Composer 安装：
 
 ```bash
 composer require mitoop/web3.php
@@ -28,6 +25,7 @@ composer require mitoop/web3.php
 
 ```php
 use Mitoop\Web3\TokenBuilder;
+use Mitoop\Web3\CoinBuilder;
 
 $token = TokenBuilder::fromArray([
     'chain' => 'eth',
@@ -40,19 +38,37 @@ $token = TokenBuilder::fromArray([
 ])->build();
 
 $wallet = $token->generateWallet();
+$token->validateAddress($wallet->address);
 $token->getBalance($wallet->address);
 
 $coin = $token->getNativeCoin();
+// 也可直接：CoinBuilder::fromArray([...])->build();
 $coin->getBalance($wallet->address);
 ```
 
-Tron 代币转账可用 `setFeeLimit` 设置单笔最多愿意燃烧的 TRX，单位是 sun，默认 `30_000_000`（30 TRX）：
+`chain` 取值：`eth` / `bsc` / `polygon` / `tron`。Solana 钱包请用 `Mitoop\Web3\Wallets\Factory::create('sol')->generate()`。
+
+### Tron `fee_limit`
+
+Tron 代币/原生转账可用 `setFeeLimit` 设置单笔最多愿意燃烧的能量费用上限，单位是 sun，默认 `30_000_000`（30 TRX）：
 
 ```php
-$token->setFeeLimit(50_000_000)->transfer($from, $privateKey, $to, $amount);
+$tronToken = TokenBuilder::fromArray([
+    'chain' => 'tron',
+    'chain_id' => 0,
+    'contract_address' => 'TXYZopYRdj2D9XRtbG411XZZ3kM5VkAeBf', // 示例
+    'decimals' => 6,
+    'rpc_url' => 'https://nile.trongrid.io',
+    'rpc_api_key' => '',
+    'explorer_url' => 'https://nile.tronscan.org',
+])->build();
+
+$tronToken->setFeeLimit(50_000_000)->transfer($from, $privateKey, $to, $amount);
 ```
 
-EVM 入账列表必须传入 `from_block`，只返回转入该地址的交易：
+### EVM 入账列表
+
+EVM `getTransactions` **必须**传入 `from_block`，且只返回转入该地址的交易（不含转出）：
 
 ```php
 $token->getTransactions($address, [
@@ -63,10 +79,33 @@ $token->getTransactions($address, [
 
 ## 测试
 
+单元测试（默认；CI 也只跑这一套，不访问链上、不需要密钥）：
+
 ```bash
 composer test
 composer format
 ```
+
+本地真实测试网转账：
+
+```bash
+cp .env.example .env
+# 填入 WEB3_EVM_* / WEB3_TRON_*（可用 generateWallet() 生成）
+# 设置 WEB3_RUN_INTEGRATION=1
+composer test:integration
+```
+
+余额不足或 RPC 不可用时用例会 skip。私钥只放本机 `.env`（已在 `.gitignore`），勿提交、勿发到聊天。
+
+若使用本仓库当前本地集成钱包，可向下列地址打测试币：
+
+| 网络 | 地址 | 建议最少 |
+|------|------|----------|
+| Ethereum Sepolia | `0x2282c73c499ebaa09ef282859ead16e4f1d723fb` | 0.01 ETH |
+| BSC Testnet / Polygon Amoy | 同上（同一 EVM 钱包） | 少量原生币 |
+| Tron Nile | `TKFzK7beg7Y65S11ufYMe1vqVvHBWcQh9c` | ≥ 2 TRX |
+
+水龙头可搜：Sepolia faucet、BSC testnet faucet、Polygon Amoy faucet、[Nile faucet](https://nileex.io/join/getJoinPage)。
 
 ## 打赏
 

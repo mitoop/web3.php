@@ -4,3 +4,4 @@ composer.lock
 .idea
 .vscode
 .phpunit.cache
+.env
