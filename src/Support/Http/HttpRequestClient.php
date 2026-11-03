@@ -49,11 +49,16 @@ trait HttpRequestClient
     {
         $options = method_exists($this, 'getGuzzleOptions') ? $this->getGuzzleOptions() : [];
 
-        return array_merge($options, [
+        $options = array_merge($options, [
             'verify' => true,
             'http_errors' => false,
-            'timeout' => method_exists($this, 'getTimeout') ? $this->getTimeout() : 60,
         ]);
+
+        if (method_exists($this, 'getTimeout')) {
+            $options['timeout'] = $this->getTimeout();
+        }
+
+        return $options;
     }
 
     protected function getHttpClient(array $options = []): Client
