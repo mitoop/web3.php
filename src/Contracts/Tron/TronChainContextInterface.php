@@ -27,4 +27,8 @@ interface TronChainContextInterface
     public function getEnergyPrice(): string;
 
     public function setEnergyPrice(string $price): static;
+
+    public function getFeeLimit(): int;
+
+    public function setFeeLimit(int $feeLimit): static;
 }

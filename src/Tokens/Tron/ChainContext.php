@@ -23,6 +23,8 @@ class ChainContext extends AbstractChainContext implements TronChainContextInter
 
     protected ?string $energyPrice = null;
 
+    protected int $feeLimit = 30_000_000;
+
     public function getChainId(bool $preferLocal = true): int
     {
         return 0;
@@ -47,6 +49,18 @@ class ChainContext extends AbstractChainContext implements TronChainContextInter
     protected function toSun(string|int|float $amount): int
     {
         return (int) $this->parseUnits((string) $amount, (string) $this->getNativeCoinDecimals());
+    }
+
+    public function getFeeLimit(): int
+    {
+        return $this->feeLimit;
+    }
+
+    public function setFeeLimit(int $feeLimit): static
+    {
+        $this->feeLimit = $feeLimit;
+
+        return $this;
     }
 
     /**

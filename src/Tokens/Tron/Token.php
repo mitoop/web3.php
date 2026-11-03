@@ -191,14 +191,15 @@ class Token extends ChainContext implements TokenInterface
             throw new RpcException('Failed to estimate energy for transfer');
         }
 
-        $estimateEnergyRequired = $estimateResponse->json('energy_required');
+        $estimateEnergyRequired = (string) $estimateResponse->json('energy_required');
+        $energyPrice = $this->getEnergyPrice();
 
         $response = $this->rpcRequest('wallet/triggersmartcontract', [
             'owner_address' => $fromAddress,
             'contract_address' => $this->getContractAddress(),
             'function_selector' => 'transfer(address,uint256)',
             'parameter' => $data,
-            'fee_limit' => 30_000_000,
+            'fee_limit' => $this->getFeeLimit(),
             'call_value' => 0,
             'visible' => true,
         ]);
@@ -209,9 +210,10 @@ class Token extends ChainContext implements TokenInterface
 
         $data = $response->json('transaction');
 
-        $estimatedSize = strlen(json_encode($data));
-        $adjustFactor = '0.8';
-        $estimatedSize = bcmul((string) $estimatedSize, $adjustFactor, 0);
+        $rawDataHex = (string) ($data['raw_data_hex'] ?? '');
+        $estimatedBandwidth = $rawDataHex !== ''
+            ? intdiv(strlen($rawDataHex), 2) + 65
+            : 345;
 
         $resource = $this->getAccountResource($fromAddress);
         $energyAvailable = ((int) ($resource['EnergyLimit'] ?? 0)) - ((int) ($resource['EnergyUsed'] ?? 0));
@@ -219,9 +221,9 @@ class Token extends ChainContext implements TokenInterface
         $net = ((int) ($resource['NetLimit'] ?? 0)) - ((int) ($resource['NetUsed'] ?? 0));
         $bandwidthAvailable = max($freeNet, 0) + max($net, 0);
 
-        $missingEnergy = max(0, $estimateEnergyRequired - $energyAvailable);
-        $missingBandwidth = max(0, $estimatedSize - $bandwidthAvailable);
-        $burnEnergySun = bcmul((string) $missingEnergy, $this->getEnergyPrice());
+        $missingEnergy = max(0, (int) $estimateEnergyRequired - $energyAvailable);
+        $missingBandwidth = max(0, $estimatedBandwidth - $bandwidthAvailable);
+        $burnEnergySun = bcmul((string) $missingEnergy, $energyPrice);
         $burnBandwidthSun = bcmul((string) $missingBandwidth, $this->getBandwidthPrice());
         $totalSun = bcadd($burnEnergySun, $burnBandwidthSun);
         $fee = $this->formatUnits($totalSun, $this->getNativeCoinDecimals(), false);
