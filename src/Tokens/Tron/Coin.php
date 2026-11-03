@@ -32,8 +32,8 @@ class Coin extends ChainContext implements CoinInterface
             'visible' => true,
         ]);
 
-        // 🌰 6000000000 sun
-        $balance = gmp_strval($response->json('balance'));
+        // 🌰 6000000000 sun；新账户可能没有 balance 字段
+        $balance = gmp_strval($response->json('balance') ?? 0);
 
         if ($asUnit) {
             return $this->formatUnits($balance, $this->getDecimals());
