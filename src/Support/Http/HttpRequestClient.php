@@ -50,7 +50,7 @@ trait HttpRequestClient
         $options = method_exists($this, 'getGuzzleOptions') ? $this->getGuzzleOptions() : [];
 
         return array_merge($options, [
-            'verify' => false,
+            'verify' => true,
             'http_errors' => false,
             'timeout' => method_exists($this, 'getTimeout') ? $this->getTimeout() : 60,
         ]);
