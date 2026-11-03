@@ -126,13 +126,15 @@ trait EvmLikeToken
     }
 
     /**
+     * pending 计入内存池中的交易。同一地址并发发送时仍可能拿到同一个 nonce，需要调用方串行处理。
+     *
      * @throws RpcException
      */
     protected function getNonce(string $address): string
     {
         $response = $this->rpcRequest('eth_getTransactionCount', [
             $address,
-            'latest',
+            'pending',
         ]);
 
         // 🌰 "0x1"
